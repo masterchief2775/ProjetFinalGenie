@@ -4,6 +4,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import About from './pages/About'
+import Profile from './pages/Profile'
 import Settings from './pages/Settings'
 import NoPage from './pages/NoPage'
 function App() {
@@ -18,6 +19,8 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/profile" element={<Profile />} />
+
 
             <Route path="*" element={<NoPage />} />
           </Routes>
