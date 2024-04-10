@@ -7,6 +7,7 @@ import About from './pages/About'
 import Settings from './pages/Settings'
 import Login from './pages/Login'
 import NoPage from './pages/NoPage'
+import Signin from './pages/Signin'
 function App() {
   return (
     <>
@@ -20,6 +21,7 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/signin" element={<Signin />} />
 
             <Route path="*" element={<NoPage />} />
           </Routes>
