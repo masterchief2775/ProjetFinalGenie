@@ -27,10 +27,16 @@ body {
   min-width: 100vw;
   min-height: 100vh;
 }
-
 .justifyFF {
   margin-left: 0.75rem/* 12px */;
   margin-top: 0.25rem/* 12px */;
   display: flex;
   justify-content: space-between;
+}
+.titreLog{
+  text-shadow: -3px 2px rgb(44, 44, 44);
+}
+
+.btnCon{
+  font-weight:700;
 }
