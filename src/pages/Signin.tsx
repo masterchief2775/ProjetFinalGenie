@@ -41,7 +41,7 @@ export default function () {
                         />
                     </div>
                     </CardBody>
-                    <Divider className=""></Divider>
+                    <Divider className="dividerProfil"></Divider>
                     <CardFooter>
                     <Button color="success" variant="shadow" className="w-[50%] ml-auto mr-[auto] mb-[3vh] btnCon">
                         Confirmer
