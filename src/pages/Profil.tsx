@@ -1,9 +1,16 @@
 import { Link } from 'react-router-dom'
 import { Avatar, Chip, Button, Divider } from "@nextui-org/react";
-
+import { useParams } from 'react-router-dom'
+import useFetch from '../hooks/useFetch';
 
 
 export default function() {
+    const { id } = useParams()
+    const { loading, error, data } = useFetch('http://52.242.29.209:1337/api/compte-tuteurs/' + id)
+
+    if (loading) return <p>Loading...</p>
+    if (error) return <p>Error :(</p>
+    console.log(data)
     let userColor = "default"
     let userImage = "https://i.pravatar.cc/150?u=a042581f4e29026024d" //Juste "" enleve l'image
     let userName = "John Doe Ding Dong Ditch"
