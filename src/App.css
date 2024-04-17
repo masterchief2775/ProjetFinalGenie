@@ -33,14 +33,18 @@ body {
   display: flex;
   justify-content: space-between;
 }
-.titreLog{
+.titre{
   text-shadow: -3px 2px rgb(44, 44, 44);
 }
 
-.btnCon{
+.btnCon , .btnSign{
   font-weight:700;
 }
 
 .dividerProfil{
   background-color: #adadad;
+}
+
+.tableResult{
+  padding: 0 !important;
 }

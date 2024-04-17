@@ -24,7 +24,7 @@ export default function() {
             <div className='w-[28vw]'>
             <Avatar classNames={{
                 base: "w-[28vw] h-[28vw]"
-            }} color={userColor} src={userImage} size="lg"/>
+            }} /*color={userColor}*/ src={userImage} size="lg"/>
             <p className="text-center pl-[1vw] pt-[1vh]">{userApp} </p>
             </div>
             <div className='w-[70vw] h-[70vw]'>

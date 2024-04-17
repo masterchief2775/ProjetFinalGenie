@@ -18,12 +18,12 @@ const Footer = () => {
           <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-orange-500">Accueil</span>
         </Link>
         
-        <Link to="/about" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group">
+        <Link to="/rencontre" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group">
           <HeroiconsMagnifyingGlass16Solid className="w-7 h-7 mb-.5 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500" />
           <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">Rencontre</span>
         </Link>
 
-        <Link to="/Settings" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group">
+        <Link to="/avis" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group">
 
           <HeroiconsStarSolid className="w-7 h-7 mb-.5 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500" />
           <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">Avis</span>
