@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Avatar, Chip, Button, Divider } from "@nextui-org/react";
+import { Avatar, Chip, Button, Divider, Calendar } from "@nextui-org/react";
 
 
 
@@ -40,11 +40,10 @@ export default function() {
                     <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow" color="secondary">Informatique</Chip>
                     <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow" color="secondary">Algèbre</Chip>
                     <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow" color="secondary">Différentiel</Chip>
-                    
                 </div>
-
             </div>
-            
+        </div>
+        <div>
         </div>
 
         </>
