@@ -9,6 +9,7 @@ import Settings from './pages/Avis'
 import Login from './pages/Login'
 import NoPage from './pages/NoPage'
 import Signin from './pages/Signin'
+import FormulaireRendezVous from './pages/FormulaireRendezVous'
 function App() {
   return (
     <>
@@ -24,6 +25,7 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signin" element={<Signin />} />
+            <Route path="/formulaireRendezVous" element={<FormulaireRendezVous />} />
 
             <Route path="*" element={<NoPage />} />
           </Routes>

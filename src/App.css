@@ -48,3 +48,18 @@ body {
 .tableResult{
   padding: 0 !important;
 }
+
+.btnPrendreRendezVous {
+  border: #adadad solid 2px ;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 5px;
+  background-color: #525252;
+  text-shadow: black 2px 2px 2px;
+  box-shadow: black 2px 2px 2px;
+  margin: 20px;
+}
+
+.btnPrendreRendezVousParent {
+  text-align: center;
+}
