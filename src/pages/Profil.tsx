@@ -1,17 +1,29 @@
 import { Link } from 'react-router-dom'
 import { Avatar, Chip, Button, Divider, Calendar, Popover, PopoverContent ,PopoverTrigger } from "@nextui-org/react";
-
+import { useParams } from 'react-router-dom'
+import useFetch from '../hooks/useFetch';
 
 
 export default function() {
+    const { id } = useParams()
+    const { loading, error, data } = useFetch('http://52.242.29.209:1337/api/users/' + id + "?populate=*")
+
+    if (loading) return <p>Loading...</p>
+    if (error) return <p>Error</p>
+    if (!data) return <p>No data</p>
+    console.log(data)
     let userColor = "default"
-    let userImage = "https://i.pravatar.cc/150?u=a042581f4e29026024d" //Juste "" enleve l'image
-    let userName = "John Doe Ding Dong Ditch"
-    let userEmail = "john.doe.01@edu.cegeptr.qc.ca"
-    let userApp = "4.3☆"
+    let userImage = "http://52.242.29.209:1337" + data.picture.url
+    let userName = data.firstName + " " + data.lastName
+    let userEmail = data.email
+    let userApp = data.reviewAvg + "☆"
     let userType = "Étudiant"
     let PlagePrise = ["11h-12h","12h-13h"]
     let PlageLibre = ["13h30-14h30"]
+    if (data.isTeacher) {
+        userType = "Enseignant"
+    }
+    
     
     return (
         <>
