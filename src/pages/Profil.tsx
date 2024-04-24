@@ -2,16 +2,17 @@ import { Link } from 'react-router-dom'
 import { Avatar, Chip, Button, Divider, Calendar, Popover, PopoverContent ,PopoverTrigger } from "@nextui-org/react";
 import { useParams } from 'react-router-dom'
 import useFetch from '../hooks/useFetch';
-
+import GetMeetingsByUserID from '../hooks/fetchUserMeetings';
 
 export default function() {
     const { id } = useParams()
-    const { loading, error, data } = useFetch('http://52.242.29.209:1337/api/users/' + id + "?populate=*")
+    const { loading, error, data} = useFetch('http://52.242.29.209:1337/api/users/' + id + "?populate=*")
 
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error</p>
     if (!data) return <p>No data</p>
-    console.log(data)
+    let meetings = GetMeetingsByUserID(data.id);
+    console.log(meetings);
     let userColor = "default"
     let userImage = "http://52.242.29.209:1337" + data.picture.url
     let userName = data.firstName + " " + data.lastName

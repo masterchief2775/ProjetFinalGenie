@@ -10,9 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@apollo/client": "^3.10.1",
+    "@nextui-org/date-input": "^2.0.3",
+    "@nextui-org/date-picker": "^2.0.6",
     "@nextui-org/react": "^2.2.10",
+    "apollo-boost": "^0.4.9",
     "framer-motion": "^11.0.24",
-    "graphql": "^16.8.1",
+    "graphql": "^15.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3"
