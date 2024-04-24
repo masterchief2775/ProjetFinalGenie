@@ -37,7 +37,7 @@ body {
   text-shadow: -3px 2px rgb(44, 44, 44);
 }
 
-.btnCon , .btnSign{
+.btnCon , .btnSign, .btnEnvoyer{
   font-weight:700;
 }
 
@@ -47,4 +47,10 @@ body {
 
 .tableResult{
   padding: 0 !important;
+}
+
+.headerAvis{
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
 }
