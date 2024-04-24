@@ -1,6 +1,7 @@
 import { Button, Input, Radio, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, RadioGroup} from "@nextui-org/react";
 
 import HeroiconsMagnifyingGlass16Solid from '~icons/heroicons/magnifying-glass-16-solid'
+import { Link } from 'react-router-dom'
 
 export default function () {
     let heureBanque = "100h"
@@ -30,7 +31,7 @@ export default function () {
                     </Button>
                     </div>
                 </div>
-                <div className="flex flex-col mt-[5vh] h-[50vh] ">
+                <div className="flex flex-col mt-[5vh] h-[45vh] ">
                     <Table 
                         selectionMode="single" 
                         aria-label="Example static collection"
@@ -45,10 +46,11 @@ export default function () {
                             <TableColumn>Maitères</TableColumn>
                         </TableHeader>
                         <TableBody >
-                            <TableRow key="1">
-                                <TableCell>Tony Reichert</TableCell>
-                                <TableCell>CEO</TableCell>
-                            </TableRow> 
+                                <TableRow key="1">
+                                    <TableCell>Tony Reichert</TableCell>
+                                    <TableCell>CEO</TableCell>
+                                </TableRow>
+
                             <TableRow key="2">
                                 <TableCell>Tony Reichert</TableCell>
                                 <TableCell>CEO</TableCell>
@@ -93,6 +95,7 @@ export default function () {
                     </Table>
                 </div>
                 <div className="h-[10vh]">
+                    
                 <RadioGroup
                     label="Option de recherche"
                     orientation="horizontal"
@@ -117,6 +120,11 @@ export default function () {
                         Matière
                     </Radio>
                 </RadioGroup>
+                    <Link to="/formulaireRendezVous">
+                        <Button color="success" variant="shadow" className="w-[80%] ml-[10%] mt-[2vh] btnSign">
+                            Prendre rendez-vous
+                        </Button> 
+                    </Link>
                 </div>
             </div>
         </>
