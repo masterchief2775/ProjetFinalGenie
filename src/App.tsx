@@ -12,6 +12,7 @@ import Signin from './pages/Signin'
 import FormulaireAvis from './pages/FormulaireAvis'
 import Avis from './pages/Avis'
 import Rencontre from './pages/Rencontre'
+import FormulaireRendezVous from './pages/FormulaireRendezVous'
 function App() {
   return (
     <>
@@ -28,6 +29,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signin" element={<Signin />} />
             <Route path="/formulaireAvis" element={<FormulaireAvis/>}/>
+            <Route path="/formulaireRendezVous" element={<FormulaireRendezVous />} />
 
             <Route path="*" element={<NoPage />} />
           </Routes>
