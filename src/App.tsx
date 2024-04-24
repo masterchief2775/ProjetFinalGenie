@@ -10,6 +10,7 @@ import Login from './pages/Login'
 import NoPage from './pages/NoPage'
 import Signin from './pages/Signin'
 import FormulaireAvis from './pages/FormulaireAvis'
+import Avis from './pages/Avis'
 function App() {
   return (
     <>
@@ -21,7 +22,7 @@ function App() {
             <Route index element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/rencontre" element={<About />} />
-            <Route path="/avis" element={<Settings />} />
+            <Route path="/avis" element={<Avis />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signin" element={<Signin />} />

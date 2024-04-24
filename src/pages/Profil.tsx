@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Avatar, Chip, Button, Divider, Calendar } from "@nextui-org/react";
+import { Avatar, Chip, Button, Divider, Calendar, Popover, PopoverContent ,PopoverTrigger } from "@nextui-org/react";
 
 
 
@@ -10,6 +10,8 @@ export default function() {
     let userEmail = "john.doe.01@edu.cegeptr.qc.ca"
     let userApp = "4.3☆"
     let userType = "Étudiant"
+    let PlagePrise = ["11h-12h","12h-13h"]
+    let PlageLibre = ["13h30-14h30"]
     
     return (
         <>
@@ -20,7 +22,7 @@ export default function() {
             </Button>
             </Link>
         </div>
-        <div className="pl-[2vw] flex w-[100vw] h-[90vh]">
+        <div className="pl-[2vw] flex w-[100vw] h-[30vh]">
             <div className='w-[28vw]'>
             <Avatar classNames={{
                 base: "w-[28vw] h-[28vw]"
@@ -36,14 +38,14 @@ export default function() {
                 <div className="pl-[3vw] pt-[1vw] flex-warp justify-start">
                     <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow"> {userType} </Chip>
                     <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow" color="warning">Math</Chip>
-                    <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow" color="secondary">Physique</Chip>
-                    <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow" color="secondary">Informatique</Chip>
-                    <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow" color="secondary">Algèbre</Chip>
-                    <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow" color="secondary">Différentiel</Chip>
+                    <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow" color="secondary">+</Chip>
                 </div>
             </div>
         </div>
-        <div>
+        <div className="flex w-[100vw] h-[60vh] overflow-hidden">
+            <div className="mx-auto mt-[1vh]">
+                <Calendar showMonthAndYearPickers/>
+            </div>
         </div>
 
         </>
