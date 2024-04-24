@@ -1,6 +1,7 @@
 import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Avatar, AvatarGroup, AvatarIcon } from "@nextui-org/react";
 
 
+
 export default function () {
     return (
         <>
