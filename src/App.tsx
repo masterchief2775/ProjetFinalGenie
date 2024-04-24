@@ -3,14 +3,15 @@ import Footer from './components/Footer'
 import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
-import About from './pages/Rencontre'
+
 import Profile from './pages/Profil'
-import Settings from './pages/Avis'
+
 import Login from './pages/Login'
 import NoPage from './pages/NoPage'
 import Signin from './pages/Signin'
 import FormulaireAvis from './pages/FormulaireAvis'
 import Avis from './pages/Avis'
+import Rencontre from './pages/Rencontre'
 function App() {
   return (
     <>
@@ -21,8 +22,8 @@ function App() {
           <Routes>
             <Route index element={<Home />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/settings" element={<Settings />} />
+            <Route path="/avis" element={<Avis />} />
+            <Route path="/rencontre" element={<Rencontre />} />
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signin" element={<Signin />} />
