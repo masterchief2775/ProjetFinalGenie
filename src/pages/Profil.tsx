@@ -1,25 +1,49 @@
 import { Link } from 'react-router-dom'
-import { Avatar, Chip, Button, Divider, Calendar, Popover, PopoverContent ,PopoverTrigger } from "@nextui-org/react";
+import { Avatar, Chip, Button, Divider, Calendar, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import { useParams } from 'react-router-dom'
-import useFetch from '../hooks/useFetch';
-import GetMeetingsByUserID from '../hooks/fetchUserMeetings';
+import { useQuery, gql } from '@apollo/client';
+
+const USER = gql`
+query GetUserById($userId: ID!) {
+	usersPermissionsUser(id: $userId) {
+    data {
+      attributes {
+        firstName
+        lastName
+        email
+        isTeacher
+        reviewAvg
+        picture {
+          data {
+            attributes {
+              url
+            }
+          }
+        }
+      }
+    }
+  }
+}
+`
+
 
 export default function() {
-    const { id } = useParams()
-    const { loading, error, data} = useFetch('http://52.242.29.209:1337/api/users/' + id + "?populate=*")
+    let id = useParams()
+    const { loading, error, data } = useQuery(USER, {
+        variables: { userId: id.id },
+      });
 
+    console.log(data)
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error</p>
-    if (!data) return <p>No data</p>
-    let meetings = GetMeetingsByUserID(data.id);
-    console.log(meetings);
+    const user = data.usersPermissionsUser.data.attributes
     let userColor = "default"
-    let userImage = "http://52.242.29.209:1337" + data.picture.url
-    let userName = data.firstName + " " + data.lastName
-    let userEmail = data.email
-    let userApp = data.reviewAvg + "☆"
+    let userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url //"http://52.242.29.209:1337" + data.picture.url
+    let userName = user.firstName + " " + user.lastName
+    let userEmail = user.email
+    let userApp = user.reviewAvg + "☆"
     let userType = "Étudiant"
-    if (data.isTeacher) {
+    if (user.isTeacher) {
         userType = "Enseignant"
     }
     

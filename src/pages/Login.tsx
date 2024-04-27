@@ -17,9 +17,9 @@ export default function () {
                             radius="sm"
                             type="text"
                             color="success"
-                            label="Matricule"
+                            label="Email"
                             size="lg"
-                            placeholder="Entrez votre matricule"
+                            placeholder="Entrez votre email du cegep ou username"
                             className="w-[98%] ml-auto mr-[auto] "
                         />
                         <Input
