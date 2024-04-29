@@ -23,10 +23,14 @@ export default function Login() {
         },
       });
 
-      // Handle successful login (e.g., store JWT, redirect to home page)
-      const token = data.login.jwt; // Assuming the token is in the response's login object
+      const token = data.login.jwt; 
+      const userId = data.login.user.id
+      localStorage.clear();
+      //console.log('Login successful:', data);
+
       localStorage.setItem('jwtToken', token)
-      console.log('Login successful:', data);
+      localStorage.setItem('id', userId)
+
       console.log('jwtToken: ', localStorage.getItem('jwtToken'))
       navigate('/')
     } catch (error) {

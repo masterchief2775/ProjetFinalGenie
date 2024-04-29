@@ -5,7 +5,6 @@ import { useNavigate } from "react-router-dom";
 export default function () {
     const id = "Math"
     const navigate = useNavigate();
-    console.log(localStorage.getItem("jwtToken"))
     const connected = checkUserData(localStorage.getItem("jwtToken"))
     if (connected) {
         console.log("Connected")
