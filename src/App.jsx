@@ -13,6 +13,7 @@ import Signin from './pages/Signin'
 import FormulaireAvis from './pages/FormulaireAvis'
 import Avis from './pages/Avis'
 import Rencontre from './pages/Rencontre'
+import FormulaireRendezVous from './pages/FormulaireRendezVous'
 
 const client = new ApolloClient({
   uri: 'http://52.242.29.209:1337/graphql',
@@ -36,11 +37,11 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signin" element={<Signin />} />
               <Route path="/formulaireAvis" element={<FormulaireAvis />} />
-
+              <Route path="/formulaireRendezVous" element={<FormulaireRendezVous />} />
               <Route path="*" element={<NoPage />} />
             </Routes>
           </div>
-          <Footer />
+          <Footer/>
         </ApolloProvider>
       </BrowserRouter>
 

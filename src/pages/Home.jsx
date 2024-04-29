@@ -22,7 +22,7 @@ export default function () {
     return (
         <>
             <div className='top-4'>
-                <Card className=" ml-auto mr-[auto] w-[90vw]">
+                <Card className=" ml-auto mr-[auto] w-[90vw] mt-[2vh]">
                     <CardHeader className="flex gap-3">
 
                         <div className="relative mr-[1.6rem] ml-[1.3rem] translate-x-[-1.35rem] translate-y-[-1.5rem]">
