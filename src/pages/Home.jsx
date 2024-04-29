@@ -2,6 +2,7 @@ import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Avatar, AvatarG
 import { getUsersByStrength } from '../hooks/userFetching';
 import checkUserData from '../hooks/checkConnection';
 import { useNavigate } from "react-router-dom";
+
 export default function () {
     const id = "Math"
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function () {
     return (
         <>
             <div className='top-4'>
-                <Card className=" ml-auto mr-[auto] w-[90vw]">
+                <Card className=" ml-auto mr-[auto] w-[90vw] mt-[2vh]">
                     <CardHeader className="flex gap-3">
 
                         <div className="relative mr-[1.6rem] ml-[1.3rem] translate-x-[-1.35rem] translate-y-[-1.5rem]">

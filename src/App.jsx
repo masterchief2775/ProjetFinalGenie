@@ -6,13 +6,14 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import Home from './pages/Home'
 
 import Profile from './pages/Profil'
-
+import ModProfile from './pages/ModProfil'
 import Login from './pages/Login'
 import NoPage from './pages/NoPage'
 import Signin from './pages/Signin'
 import FormulaireAvis from './pages/FormulaireAvis'
 import Avis from './pages/Avis'
 import Rencontre from './pages/Rencontre'
+import FormulaireRendezVous from './pages/FormulaireRendezVous'
 
 const client = new ApolloClient({
   uri: 'http://52.242.29.209:1337/graphql',
@@ -36,11 +37,14 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signin" element={<Signin />} />
               <Route path="/formulaireAvis" element={<FormulaireAvis />} />
+              <Route path="/formulaireRendezVous" element={<FormulaireRendezVous />} />
+              <Route path="/modProfile/:id" element={<ModProfile />} />
+
 
               <Route path="*" element={<NoPage />} />
             </Routes>
           </div>
-          <Footer />
+          <Footer/>
         </ApolloProvider>
       </BrowserRouter>
 

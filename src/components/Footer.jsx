@@ -6,7 +6,8 @@ import ProfileIcon from '~icons/heroicons/user-16-solid'
 
 
 const Footer = () => {
-
+  const userId = localStorage.getItem('userId');
+  console.log('User ID:', userId);
   return (
     
 
@@ -28,8 +29,8 @@ const Footer = () => {
           <HeroiconsStarSolid className="w-7 h-7 mb-.5 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500" />
           <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">Avis</span>
         </Link>
-
-        <Link to="/Profile" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group">
+        
+        <Link to={"/Profile/" + localStorage.getItem('userId')} className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group">
           <ProfileIcon className="w-7 h-7 mb-.5 text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500" />
           <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-500">Profil</span>
         </Link>
