@@ -1,9 +1,9 @@
-import React from 'react'
+import React, {useState} from 'react'
 import ReactDOM from 'react-dom/client'
 import {NextUIProvider} from '@nextui-org/react'
-import App from './App.tsx'
+import App from './App.jsx'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <NextUIProvider>
       <App />
