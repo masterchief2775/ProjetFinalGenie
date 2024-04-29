@@ -6,7 +6,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import Home from './pages/Home'
 
 import Profile from './pages/Profil'
-
+import ModProfile from './pages/ModProfil'
 import Login from './pages/Login'
 import NoPage from './pages/NoPage'
 import Signin from './pages/Signin'
@@ -36,6 +36,8 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signin" element={<Signin />} />
               <Route path="/formulaireAvis" element={<FormulaireAvis />} />
+              <Route path="/modProfile/:id" element={<ModProfile />} />
+
 
               <Route path="*" element={<NoPage />} />
             </Routes>

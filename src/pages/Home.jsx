@@ -2,6 +2,7 @@ import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Avatar, AvatarG
 import { getUsersByStrength } from '../hooks/userFetching';
 import checkUserData from '../hooks/checkConnection';
 import { useNavigate } from "react-router-dom";
+
 export default function () {
     const id = "Math"
     const navigate = useNavigate();
