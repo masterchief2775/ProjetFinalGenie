@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import LogoutComponent from '../components/LogoutComponent'
 import { Avatar, Chip, Button, Divider, Calendar, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import { useParams } from 'react-router-dom'
 import { getUserById } from '../hooks/userFetching';
@@ -21,6 +22,7 @@ export default function () {
   let userEmail = user.email
   let userApp = user.reviewAvg + "☆"
   let userType = "Étudiant"
+  let userId = user.userId
   if (user.isTeacher) {
     userType = "Enseignant"
   }
@@ -28,13 +30,7 @@ export default function () {
 
   return (
     <>
-      <div className="LogOut flex mr-3 pt-[2vh] justify-end h-[10vh]">
-        <Link to="/login">
-          <Button radius="full" className="bg-gradient-to-tr from-red-600 to-orange-700 text-white shadow-lg">
-            Déconnexion
-          </Button>
-        </Link>
-      </div>
+      <LogoutComponent userId={userId} id={id}/>
       <div className="pl-[2vw] flex w-[100vw] h-[30vh]">
         <div className='w-[28vw]'>
           <Avatar classNames={{
@@ -51,7 +47,6 @@ export default function () {
           <div className="pl-[3vw] pt-[1vw] flex-warp justify-start">
             <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow"> {userType} </Chip>
             <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow" color="warning">Math</Chip>
-            <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow" color="secondary">+</Chip>
           </div>
         </div>
       </div>
