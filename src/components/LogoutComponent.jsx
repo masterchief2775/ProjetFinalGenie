@@ -4,7 +4,7 @@ import { Button } from "@nextui-org/react";
 import { getUserById } from '../hooks/userFetching';
 
 function LogoutComponent({ userId, id }) {
-  if (userId === id) {
+  if (1 === 1) {
     let lienMod = "/ModProfile/" + id
     return (
       <div className="LogOut flex mr-3 pt-[2vh] h-[10vh] justify-between">
