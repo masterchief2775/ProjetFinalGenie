@@ -6,9 +6,9 @@ import { Time } from "@internationalized/date";
 export default function () {
     return (
         <div className="flex h-[100vh]">
-            <Card className=" ml-auto mr-[auto] mt-[10vh] mb-[14vh] w-[90vw] bg-[#444444] drop-shadow-xl">
+            <Card className=" ml-auto mr-[auto] mt-[10vh] mb-[14vh] w-[90vw] bg-[#041638] drop-shadow-xl">
                 <CardHeader className="w-[100%]">
-                    <h1 className="text-center text-success-500 text-4xl font-bold mx-auto titre" >Rendez-vous</h1>
+                    <h1 className="text-center text-primary-500 text-4xl font-bold mx-auto titre" >Rendez-vous</h1>
 
                 </CardHeader>
                 <CardBody className="w-[100%]">
@@ -16,7 +16,7 @@ export default function () {
                         <Input
                             radius="sm"
                             type="text"
-                            color="success"
+                            color="primary"
                             label="Nom"
                             size="lg"
                             placeholder="Entrez le nom du rendez-vous"
@@ -25,19 +25,19 @@ export default function () {
                         <Input
                             radius="sm"
                             type="text"
-                            color="success"
+                            color="primary"
                             label="Lieux"
                             size="lg"
                             placeholder="Entrez le lieux du rendez-vous"
                             className="w-[98%] ml-[auto] mr-[auto] mb-[5%]"
                         />
-                        <DatePicker label="Date du rendez-vous" className="w-[98%] ml-auto mr-[auto] mb-[5%]" radius="sm" color="success" />
-                        <TimeInput label="Heure Début" className="w-[98%] ml-auto mr-[auto] mb-[5%]" defaultValue={new Time(11, 45)} radius="sm" color="success" />
-                        <TimeInput label="Heure Fin" className="w-[98%] ml-auto mr-[auto] mb-[5%]" defaultValue={new Time(11, 45)} radius="sm" color="success" />
+                        <DatePicker label="Date du rendez-vous" className="w-[98%] ml-auto mr-[auto] mb-[5%]" radius="sm" color="primary" />
+                        <TimeInput label="Heure Début" className="w-[98%] ml-auto mr-[auto] mb-[5%]" defaultValue={new Time(11, 45)} radius="sm" color="primary" />
+                        <TimeInput label="Heure Fin" className="w-[98%] ml-auto mr-[auto] mb-[5%]" defaultValue={new Time(11, 45)} radius="sm" color="primary" />
                         <Input
                             radius="sm"
                             type="text"
-                            color="success"
+                            color="primary"
                             label="Sujet"
                             size="lg"
                             placeholder="Entrez le sujet du rendez-vous"
@@ -47,7 +47,7 @@ export default function () {
                 </CardBody>
                 <CardFooter className="mb-[1vh] flex justify-center">
                     <Link to="/home">
-                        <Button color="success" variant="shadow" className="w-[300px] btnSign">
+                        <Button color="primary" variant="shadow" className="w-[300px] btnSign">
                             Confirmer
                         </Button>
                     </Link>

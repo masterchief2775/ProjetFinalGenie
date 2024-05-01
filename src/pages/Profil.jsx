@@ -52,7 +52,7 @@ export default function () {
       </div>
       <div className="flex w-[100vw] h-[60vh] overflow-hidden">
         <div className="mx-auto mt-[1vh]">
-          <Calendar showMonthAndYearPickers />
+          <Calendar showMonthAndYearPickers/>
         </div>
       </div>
 

@@ -83,9 +83,9 @@ export default function SignupForm() {
     return (
         <>
             <div className="flex h-[100vh]">
-                <Card className="ml-auto mr-[auto] mt-[10vh] mb-[15vh] w-[90vw] bg-[#444444] drop-shadow-xl">
+                <Card className="ml-auto mr-[auto] mt-[10vh] mb-[15vh] w-[90vw] bg-[#041638] drop-shadow-xl">
                     <CardHeader className="w-[100%] mt-auto">
-                        <h1 className="text-center text-success-500 text-xl font-bold mx-auto titre">
+                        <h1 className="text-center text-primary-500 text-xl font-bold mx-auto titre">
                             Création de compte
                         </h1>
                     </CardHeader>
@@ -95,7 +95,7 @@ export default function SignupForm() {
                                 <Input
                                     radius="sm"
                                     type="email"
-                                    color="success"
+                                    color="primary"
                                     label="Email"
                                     size="md"
                                     placeholder="Entrez votre email du cegep"
@@ -110,7 +110,7 @@ export default function SignupForm() {
                                 />
                                 <Input
                                     radius="sm"
-                                    color="success"
+                                    color="primary"
                                     label="Nom d'utilisateur"
                                     size="md"
                                     placeholder="Alternatif à l'email lors de la connection"
@@ -126,7 +126,7 @@ export default function SignupForm() {
                                 />
                                 <Input
                                     radius="sm"
-                                    color="success"
+                                    color="primary"
                                     label="Mot de passe"
                                     size="md"
                                     placeholder="Entrez votre mot de passe"
@@ -151,7 +151,7 @@ export default function SignupForm() {
                                 />
                                 <Input
                                     radius="sm"
-                                    color="success"
+                                    color="primary"
                                     label="Confirmation"
                                     size="md"
                                     placeholder="Confirmez votre mot de passe"
