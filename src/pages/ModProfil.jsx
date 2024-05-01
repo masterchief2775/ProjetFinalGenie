@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Avatar, Chip, Button, Divider, Calendar, Input} from "@nextui-org/react";
 import { useParams } from 'react-router-dom'
 import { getUserById } from '../hooks/userFetching';
+import HeroiconsTrashSolid from '~icons/heroicons/trash-solid';
 
 
 
@@ -27,40 +28,26 @@ export default function () {
 
   return (
     <>
-      <div className="pl-[2vw] flex w-[100vw] h-[25vh] pt-[5vh]">
+      <div className="h-[10vh] py-[2vh] bg-[#444444]">
+        <h1 className="text-center text-success-500 text-4xl font-bold titre" >Paramètres</h1>
+      </div>
+
+      <div className="pl-[2vw] flex w-[100vw] h-[20vh] mt-[2vh]">
         <div className='w-[28vw]'>
           <Avatar classNames={{
             base: "w-[28vw] h-[28vw]"
           }} color={userColor} src={userImage} size="lg" />
-          <p className="text-center pl-[1vw] pt-[1vh]">{userApp} </p>
         </div>
-        <div className='w-[70vw] h-[70vw]'>
-          <div className="pl-[3vw] pt-[1vw] flex-warp justify-start">
-            <p className="text-2xl">{userName}</p>
-            <p className="overflow-hidden">{userEmail} </p>
-          </div>
-          <Divider className="dividerProfil ml-[1vw] w-[68vw] my-2" ></Divider>
-          <div className="pl-[3vw] pt-[1vw] flex-warp justify-start">
-            <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow"> {userType} </Chip>
-            <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow" color="warning"><a>Math</a></Chip>
+        <div className='w-[70vw] h-[20vh] '>
+          <div className='pl-[3vw] pt-[10vw] overflow-hidden'>
+            <input className='' name="pochette" type="file"> 
+            </input>
           </div>
         </div>
       </div>
-      <div className="pl-[2vw] pr-[2vw] w-[100vw] h-[15vh] ">
-        <div className="flex h-[7vh]">
-        <Input
-                radius="sm"
-                type="text"
-                label="Image de profil"
-                size="lg"
-                placeholder={userImage}
-                className="w-[75vw] mr-[1vw]"
-        />
-        <Button color="success" variant="shadow" className="w-[10vw] btnSign h-[7vh]">
-                Modifier
-        </Button>
-        </div>
-        <div className="flex h-[7vh] mt-[1vh]">
+
+      <div className="pl-[2vw] pr-[2vw] w-[100vw] h-[60vh]">
+        <div className="flex h-[7vh] mt-[2vh]">
         <Input
                 radius="sm"
                 type="text"
@@ -73,11 +60,24 @@ export default function () {
                 Ajouter
         </Button>
         </div>
-      </div>
-      <div className="flex w-[100vw] h-[60vh] overflow-hidden">
-        <div className="mx-auto mt-[1vh]">
-          <Calendar showMonthAndYearPickers />
-        </div>
+        <div className="pl-[3vw] mt-[1vw] flex flex-col justify-start overflow-y-scroll h-[53vh]">
+            <div className='mt-2 mr-2 flex'>
+              <Chip size="m" radius="sm" variant="shadow" color="warning">Math</Chip>
+              <button type="submit" className='py-auto'>< HeroiconsTrashSolid className="ml-3 w-6 h-6 "/></button>
+            </div>
+            <div className='mt-2 mr-2 flex'>
+              <Chip size="m" radius="sm" variant="shadow" color="warning">Science</Chip>
+              <button type="submit" className='py-auto'>< HeroiconsTrashSolid className="ml-3 w-6 h-6 "/></button>
+            </div>
+            <div className='mt-2 mr-2 flex'>
+              <Chip size="m" radius="sm" variant="shadow" color="warning">Philo</Chip>
+              <button type="submit" className='py-auto'>< HeroiconsTrashSolid className="ml-3 w-6 h-6 "/></button>
+            </div>
+            <div className='mt-2 mr-2 flex'>
+              <Chip size="m" radius="sm" variant="shadow" color="warning">Info</Chip>
+              <button type="submit" className='py-auto'>< HeroiconsTrashSolid className="ml-3 w-6 h-6 "/></button>
+            </div>
+          </div>
       </div>
     </>
   )
