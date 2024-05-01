@@ -1,9 +1,12 @@
 import { useState } from 'react';
 import { Card, CardHeader, CardBody, CardFooter, Button, Input, Divider } from "@nextui-org/react";
 import { Link } from 'react-router-dom';
+import { useCreateUserMutation } from '../hooks/mutations';
 import {EyeFilledIcon} from "./../assets/EyeFilledIcon";
 import {EyeSlashFilledIcon} from "./../assets/EyeSlashFilledIcon";
 import React from 'react';
+import { REGISTER_MUTATION, REGISTER_EXTRA_MUTATION } from '../hooks/mutations';
+import { useMutation } from '@apollo/client';
 
 export default function SignupForm() {
     //Fields
@@ -18,7 +21,8 @@ export default function SignupForm() {
     //Password Field Visibility
     const toggleVisibility = () => setIsVisible(!isVisible);
     const [isVisible, setIsVisible] = React.useState(false);
-
+    var [signinMutation, { loading, error }] = useMutation(REGISTER_MUTATION);
+    var [signinExtraMutation, { loading, error }] = useMutation(REGISTER_EXTRA_MUTATION);
     //Password Validation
     const validatePassword = (password) => {
         const hasLowercase = /[a-z]/.test(password);
@@ -41,7 +45,7 @@ export default function SignupForm() {
         const newErrors = {};
         if (!email) {
             newErrors.email = 'L\'adresse email est requise.';
-        } else if (!/.*\.cegeptr\.qc\.ca$/.test(email)) {
+        } else if (!/.*cegeptr\.qc\.ca$/.test(email)) {
             newErrors.email = 'L\'adresse email doit être du domaine du cegep.';
         }
 
@@ -66,19 +70,72 @@ export default function SignupForm() {
         return Object.keys(newErrors).length === 0; // Return true if no errors
     };
 
+    const getFamilyNames = (parts) => {
+        if (parts.length === 1) {
+            return parts[0];
+        }
+        
+    
+        if (containsNumber(parts[parts.length-1])) {
+            parts.pop()
+        }
+        var familyNames = parts.map(capitalizeFirstLetter)
+        familyNames = familyNames.slice(1).join(' ');
+    
+        return familyNames;
+    }
 
     // After Validation Do ....
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
         if (!validateForm()) return; // Don't submit if validation fails
 
-        // Handle form submission logic here (e.g., call your mutation)
-        console.log('Submitting registration:', {
-            email,
-            password,
-        }); // Replace with your mutation call and error handling
+        try {
+            var {data} = await signinMutation({
+                variables: {
+                    input: {
+                        username: username,
+                        email: email,
+                        password: password,
+                    },
+                },
+            });
+            console.log(data)
+            var namePart = email.split('@')[0]
+            var nameParts = namePart.split('.');
+            var firstName = capitalizeFirstLetter(nameParts[0]);
+            var lastName = getFamilyNames(nameParts)
+            var isTeacher = !email.includes('@edu'); // True if not edu email
+            var userId = data.register.user.id
+            console.log(userId)
+            var {data} = await signinExtraMutation({
+                variables: {
+                    id: userId,
+                    data: {
+                        firstName: firstName,
+                        lastName: lastName,
+                        isTeacher: isTeacher,
+                    },
+                },
+            });
+            
+            // Handle successful registration (e.g., navigate to another page)
+          } catch (errors) {
+            console.error('Error creating user:', errors);
+            console.error('Error creating user:', error);
+            // Handle errors appropriately (e.g., display user-friendly messages)
+        }
+
     };
+
+    const capitalizeFirstLetter = (word) => {
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }
+    
+    const containsNumber = (str) => {
+        return str.search(/\d/) !== -1;
+    }
 
     return (
         <>

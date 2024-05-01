@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 
 export const LOGIN_MUTATION = gql`
   mutation Login($input: UsersPermissionsLoginInput!) {
@@ -18,33 +18,61 @@ export const LOGIN_MUTATION = gql`
       }
     }
   }
-`;
+`;  
 
+export const REGISTER_EXTRA_MUTATION = gql`
+mutation registerExtra($id: ID!, $data: UsersPermissionsUserInput!) {
+  updateUsersPermissionsUser(id: $id, data: $data) {
+    data {
+      id
+    }
+  } 
+}`;
 
-const REGISTER_MUTATION = gql`
-mutation register($username: String!, $email: String!, $password: String!) {
-  register(input: { username: $username, email: $email, password: $password }) {
-    jwt
+export const REGISTER_MUTATION = gql`
+mutation register($input: UsersPermissionsRegisterInput!) {
+  register(input: $input) {
     user {
       id
-      username
-      email
-      role {
-        name
-      }
     }
-  }
+  } 
 }`;
 
 export const createUser = async (username, email, password) => {
-  const { data } = await client.mutate({
-    mutation: REGISTER_MUTATION, // Assuming you have REGISTER_MUTATION defined
+  const emailParts = email.split('.');
+  const firstName = emailParts[0];
+  const lastName = emailParts.slice(1, -1).join(' '); // Join middle and last name
+  const isTeacher = !email.includes('@edu'); // True if not edu email
+
+  var { loading, error, data } = await useMutation({
+    mutation: REGISTER_MUTATION,
     variables: {
       username,
       email,
       password,
     },
   });
-  // Handle response data and errors
+  if (data == null) {
+    return {loading, error, data}
+  }
+  const userId = data.id;
+  var { loading, error, data } = await useMutatione({
+    mutation: REGISTER_EXTRA_MUTATION,
+    variables: {
+      userId,
+      firstName,
+      lastName,
+      isTeacher,
+    },
+  });
+
+  return {loading, error, data}
 };
 
+export const useCreateUserMutation = () => {
+  return useMutation(REGISTER_MUTATION);
+};
+
+export const useCreateUserExtraMutation = () => {
+  return useMutation(REGISTER_EXTRA_MUTATION);
+};
