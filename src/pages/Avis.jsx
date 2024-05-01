@@ -14,8 +14,8 @@ export default function() {
         <>
         
             <div className="h-[100vh] overflow-x-hidden">
-                <div className="h-[10vh] py-[2vh] bg-[#444444] headerAvis">
-                    <h1 className="text-center text-success-500 text-4xl font-bold titre" >Avis</h1>
+                <div className="h-[10vh] py-[2vh] bg-[#041638] headerAvis">
+                    <h1 className="text-center text-primary-500 text-4xl font-bold titre" >Avis</h1>
                 </div>
                 <div className="h-auto mt-[12vh] mb-[30vh]">
                     <Card className=" ml-auto mr-[auto] w-[95vw] mt-[2vh] overflow-y: auto;">

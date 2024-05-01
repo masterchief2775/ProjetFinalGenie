@@ -10,11 +10,11 @@ export default function () {
         <>
             <div className="h-[100vh] w-[100wh] ">
                 <div className="header h-[5vh] bg-[#444444] mb-[5vh]">
-                    <div className="bg-[#444444] ">
-                        <h1 className="w-[98vw] text-right text-warning-500 text-md font-bold ">Banque: {heureBanque}</h1>
+                    <div className="bg-[#041638] ">
+                        <h1 className="w-[98vw] text-right text-primary-500 text-md font-bold ">Banque: {heureBanque}</h1>
                     </div>
-                    <div className="bg-[#444444] ">
-                        <h1 className="pb-[3vh] w-[100vw] text-center text-success-500 text-4xl font-bold titre">Rencontre</h1>
+                    <div className="bg-[#041638] ">
+                        <h1 className="pb-[3vh] w-[100vw] text-center text-primary-500 text-4xl font-bold titre">Rencontre</h1>
                     </div>
                 </div>
                 <div className="search h-[10vh]">
@@ -26,8 +26,8 @@ export default function () {
                             placeholder="Entrez votre recherche"
                             className="w-[69vw] h-[8vh]"
                         />
-                        <Button className="w-[5vw] m-[auto] mt-[0.5vh] bg-success-600">
-                            <HeroiconsMagnifyingGlass16Solid className="w-7 h-7 mb-.5 text-green-800 dark:text-gray-400 group-hover:text-green-500 dark:group-hover:text-blue-500" />
+                        <Button className="w-[5vw] m-[auto] mt-[0.5vh] bg-primary-600">
+                            <HeroiconsMagnifyingGlass16Solid className="w-7 h-7 mb-.5 text-primary-900 dark:text-gray-400 group-hover:text-primary-700 dark:group-hover:text-blue-500" />
                         </Button>
                     </div>
                 </div>
@@ -36,7 +36,7 @@ export default function () {
                         selectionMode="single"
                         aria-label="Example static collection"
                         classNames={{
-                            table: "bg-[#444444]",
+                            table: "bg-[#041638]",
                             wrapper: "p-0"
                         }}
                         isHeaderSticky
@@ -126,12 +126,12 @@ export default function () {
                     </RadioGroup>
                     <div className="text-center">
                         <Link to="/formulaireRendezVous">
-                            <Button color="success" variant="shadow" className="w-40 ml-2 mr-2 mt-2 btnSign">
+                            <Button color="primary" variant="shadow" className="w-40 ml-2 mr-2 mt-2 btnSign">
                                 Rendez-vous
                             </Button>
                         </Link>
                         <Link>
-                            <Button color="success" variant="shadow" className="w-40 ml-2 mr-2 mt-2 btnSign">
+                            <Button color="primary" variant="shadow" className="w-40 ml-2 mr-2 mt-2 btnSign">
                                 Rendez-vous groupe
                             </Button>
                         </Link>
