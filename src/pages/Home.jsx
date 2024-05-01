@@ -21,8 +21,8 @@ export default function () {
     const user = data?.usersPermissionsUser?.data?.attributes;
     return (
         <>
-            <div className='top-4'>
-                <Card className=" ml-auto mr-[auto] w-[90vw] mt-[2vh]">
+            <div className='top-4 pt-[2vh]'>
+                <Card className=" ml-auto mr-[auto] w-[90vw] ">
                     <CardHeader className="flex gap-3">
 
                         <div className="relative mr-[1.6rem] ml-[1.3rem] translate-x-[-1.35rem] translate-y-[-1.5rem]">
@@ -31,16 +31,16 @@ export default function () {
 
 
                             <div className="absolute p-[0.15rem] bg-white rounded-full translate-x-[1.8rem] translate-y-[1.5rem]">
-                                <div className="bg-orange-500 p-[0.7rem] rounded-full">
+                                <div className="bg-customColor p-[0.7rem] rounded-full">
                                 </div>
                             </div>
 
 
-                            <div className=" translate-x-[-0.21rem] translate-y-[-0.21rem] absolute border-orange-500 border-3 rounded-full p-[1.4rem]"></div>
+                            <div className=" translate-x-[-0.21rem] translate-y-[-0.21rem] absolute border-customColor border-3 rounded-full p-[1.4rem]"></div>
                             <p className="absolute rounded-full translate-x-[2.1rem] translate-y-[1.8rem]  text-tiny text-orange-900 font-bold">+5</p>
                         </div>
 
-                        
+
 
                         <div className="flex flex-col">
                             <p className="text-left">Mathematic</p>

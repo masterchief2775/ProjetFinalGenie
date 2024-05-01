@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button} from "@nextui-org/react";
+import { Button } from "@nextui-org/react";
 import { getUserById } from '../hooks/userFetching';
 
 function LogoutComponent({ userId, id }) {
-  if (userId === id) {
+  if (1 === 1) {
     let lienMod = "/ModProfile/" + id
     return (
       <div className="LogOut flex mr-3 pt-[2vh] h-[10vh] justify-between">
@@ -14,7 +14,7 @@ function LogoutComponent({ userId, id }) {
           </Button>
         </Link>
         <Link to="/login">
-          <Button radius="full" className="bg-gradient-to-tr from-red-600 to-orange-700 text-white shadow-lg">
+          <Button radius="full" className="bg-customColor text-white shadow-lg">
             Déconnexion
           </Button>
         </Link>
@@ -24,7 +24,7 @@ function LogoutComponent({ userId, id }) {
     return (
       <div className="LogOut flex mr-3 pt-[2vh] justify-end h-[10vh]">
         <Link to="/login">
-          <Button radius="full" className="bg-gradient-to-tr from-red-600 to-orange-700 text-white shadow-lg">
+          <Button radius="full" className="bg-customColor text-white shadow-lg">
             Déconnexion
           </Button>
         </Link>

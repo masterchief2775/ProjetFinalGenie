@@ -40,7 +40,7 @@ export default function Login() {
       console.log(userId);
       localStorage.setItem('jwtToken', token);
       localStorage.setItem('id', userId);
-      
+
       //console.log('jwtToken: ', localStorage.getItem('jwtToken'));
       navigate('/');
     } catch (error) {
@@ -53,53 +53,53 @@ export default function Login() {
   return (
     <>
       <form ref={formRef} onSubmit={handleLogin}> <div className="flex h-[100vh]">
-      <Card className="ml-auto mr-[auto] mt-[20vh] mb-[20vh] w-[90vw] bg-[#041638] drop-shadow-xl">
-            <CardHeader className="w-[100%]">
-              <h1 className="text-center text-primary-500 text-4xl font-bold mx-auto titre">Connexion</h1>
-            </CardHeader>
-            <CardBody className="w-[100%]">
-              <div className="w-full flex flex-row flex-wrap mt-auto mb-auto">
-                <Input
-                  radius="sm"
-                  type="text"
-                  color="primary"
-                  label="Email"
-                  size="lg"
-                  placeholder="Entrez votre email du cegep ou username"
-                  className="w-[98%] ml-auto mr-[auto] "
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-                <Input
-                  radius="sm"
-                  type="text"
-                  color="primary"
-                  label="Mot de passe"
-                  size="lg"
-                  placeholder="Entrez votre mot de passe"
-                  className="w-[98%] ml-auto mr-[auto] mt-[4vh]"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-            </CardBody>
-            <CardFooter>
-              <Link to="/home" className="w-[50%] mb-[2vh]">
-                <Button color="primary" variant="shadow" className="w-[80%] ml-[10%] btnCon" disabled={loading} onClick={handleLogin}>
-                  {loading ? 'Chargement...' : 'Se connecter'}
-                </Button>
-              </Link>
-              <Link to="/signin" className="w-[50%] mb-[2vh]">
-                <Button color="primary" variant="shadow" className="w-[80%] ml-[10%] btnSign">
-                  S'inscrire
-                </Button>
-              </Link>
-              {loginError && <p className="text-error">{loginError}</p>} {/* Conditionally render error message */}
-            </CardFooter>
-          </Card>
-        </div>
+        <Card className="ml-auto mr-[auto] mt-[20vh] mb-[20vh] w-[90vw] bg-[#041638] drop-shadow-xl">
+          <CardHeader className="w-[100%]">
+            <h1 className="text-center text-primary-500 text-4xl font-bold mx-auto titre">Connexion</h1>
+          </CardHeader>
+          <CardBody className="w-[100%]">
+            <div className="w-full flex flex-row flex-wrap mt-auto mb-auto">
+              <Input
+                radius="sm"
+                type="text"
+                color="primary"
+                label="Email"
+                size="lg"
+                placeholder="Entrez votre email du cegep ou username"
+                className="w-[98%] ml-auto mr-[auto] "
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <Input
+                radius="sm"
+                type="text"
+                color="primary"
+                label="Mot de passe"
+                size="lg"
+                placeholder="Entrez votre mot de passe"
+                className="w-[98%] ml-auto mr-[auto] mt-[4vh]"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+          </CardBody>
+          <CardFooter>
+            <Link to="/home" className="w-[50%] mb-[2vh]">
+              <Button color="primary" variant="shadow" className="w-[80%] ml-[10%] btnCon" disabled={loading} onClick={handleLogin}>
+                {loading ? 'Chargement...' : 'Se connecter'}
+              </Button>
+            </Link>
+            <Link to="/signin" className="w-[50%] mb-[2vh]">
+              <Button color="primary" variant="shadow" className="w-[80%] ml-[10%] btnSign">
+                S'inscrire
+              </Button>
+            </Link>
+            {loginError && <p className="text-error">{loginError}</p>} {/* Conditionally render error message */}
+          </CardFooter>
+        </Card>
+      </div>
       </form>
     </>
   );
