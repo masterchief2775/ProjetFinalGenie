@@ -15,8 +15,8 @@ const Footer = () => {
       
       <div className="grid h-full max-w-lg grid-cols-4 mx-auto font-medium">
         <Link to="/" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group">
-          <HomeIcon className="w-7 h-7 mb-.5 text-gray-500 dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-orange-500" />
-          <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-orange-600 dark:group-hover:text-orange-500">Accueil</span>
+          <HomeIcon className="w-7 h-7 mb-.5 text-gray-500 dark:text-gray-400 group-hover:text-customColor dark:group-hover:text-customColor" />
+          <span className="text-sm text-gray-500 dark:text-gray-400 group-hover:text-customColor dark:group-hover:text-customColor">Accueil</span>
         </Link>
         
         <Link to="/rencontre" className="inline-flex flex-col items-center justify-center px-5 hover:bg-gray-800 group">
