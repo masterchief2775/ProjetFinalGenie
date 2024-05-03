@@ -6,6 +6,7 @@ export default function checkUserData(setToken) {
 
   const fetchData = (callback) => {
     try {
+      console.log(localStorage.getItem("jwtToken"))
       fetch('http://52.242.29.209:1337/api/users/me', {
         headers: {
           Authorization: `Bearer ${setToken}`,
@@ -26,7 +27,7 @@ export default function checkUserData(setToken) {
           console.error('Error fetching user data:', error);
         });
     } catch (error) {
-      console.error('Error fetching user data:', error);
+      console.error('Couldn\'t fetch, returning to login');
     }
   };
 

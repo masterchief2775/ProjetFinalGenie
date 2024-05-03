@@ -5,21 +5,22 @@ import { LOGIN_MUTATION } from '../hooks/mutations';
 import { useState, useRef } from "react";
 
 export default function Login() {
+  //Navigation Usage
+  const navigate = useNavigate();
+
+  //Fields
   const [email, setEmail] = useState(''); // Using useState here
   const [password, setPassword] = useState('');
-  const [loginError, setError] = useState(null);
-  const navigate = useNavigate();
-  const formRef = useRef(null); // Declare formRef here
 
-  const handleLogin = async (e) => {
+  //Errors
+  const [errors, setErrors] = useState({});
+
+  //Mutations (Sending Info)
+  const [loginMutation, { loading, error }] = useMutation(LOGIN_MUTATION);
+
+  //Form validation function
+  const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent default form submission behavior
-
-    const form = formRef.current;
-    if (form.checkValidity() === false) {
-      e.preventDefault();
-      setError('Veuillez remplir tous les champs obligatoires');
-      return;
-    }
 
     try {
       const { data } = await loginMutation({
@@ -32,27 +33,27 @@ export default function Login() {
         },
       });
 
-      // Handle successful login (e.g., store JWT, redirect to home page)
+      //If everything ok save jwt & other constant info
       const token = data.login.jwt;
       const userId = data.login.user.id;
+
       localStorage.clear();
-      //console.log('Login successful:', data);
-      console.log(userId);
       localStorage.setItem('jwtToken', token);
       localStorage.setItem('id', userId);
-      
-      //console.log('jwtToken: ', localStorage.getItem('jwtToken'));
+
       navigate('/');
-    } catch (error) {
-      setError(error.message); // Set error state for display
+
+    } catch (errors) {
+      console.error('Error creating user:', errors);
+      setErrors(errors.message); // Set error state for display
     }
   };
 
-  const [loginMutation, { loading, error }] = useMutation(LOGIN_MUTATION);
+ 
 
   return (
     <>
-      <form ref={formRef} onSubmit={handleLogin}> <div className="flex h-[100vh]">
+      <form onSubmit={handleSubmit}> <div className="flex h-[100vh]">
       <Card className="ml-auto mr-[auto] mt-[20vh] mb-[20vh] w-[90vw] bg-[#041638] drop-shadow-xl">
             <CardHeader className="w-[100%]">
               <h1 className="text-center text-primary-500 text-4xl font-bold mx-auto titre">Connexion</h1>
@@ -66,10 +67,14 @@ export default function Login() {
                   label="Email"
                   size="lg"
                   placeholder="Entrez votre email du cegep ou username"
-                  className="w-[98%] ml-auto mr-[auto] "
+                  
+                  isRequired
                   value={email}
+                  isInvalid={errors.email != null}
+                  errorMessage={errors.email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required
+
+                  className="w-[98%] ml-auto mr-[auto] "
                 />
                 <Input
                   radius="sm"
@@ -78,17 +83,21 @@ export default function Login() {
                   label="Mot de passe"
                   size="lg"
                   placeholder="Entrez votre mot de passe"
-                  className="w-[98%] ml-auto mr-[auto] mt-[4vh]"
+
+                  isRequired
                   value={password}
+                  isInvalid={errors.password != null}
+                  errorMessage={errors.password}
                   onChange={(e) => setPassword(e.target.value)}
-                  required
+
+                  className="w-[98%] ml-auto mr-[auto] mt-[4vh]"
                 />
               </div>
             </CardBody>
             <CardFooter>
               <Link to="/home" className="w-[50%] mb-[2vh]">
-                <Button color="primary" variant="shadow" className="w-[80%] ml-[10%] btnCon" disabled={loading} onClick={handleLogin}>
-                  {loading ? 'Chargement...' : 'Se connecter'}
+                <Button color="primary" variant="shadow" className="w-[80%] ml-[10%] btnCon" onClick={handleSubmit}>
+                  Se connecter
                 </Button>
               </Link>
               <Link to="/signin" className="w-[50%] mb-[2vh]">
@@ -96,7 +105,6 @@ export default function Login() {
                   S'inscrire
                 </Button>
               </Link>
-              {loginError && <p className="text-error">{loginError}</p>} {/* Conditionally render error message */}
             </CardFooter>
           </Card>
         </div>

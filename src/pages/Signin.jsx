@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Card, CardHeader, CardBody, CardFooter, Button, Input, Divider } from "@nextui-org/react";
-import { Link } from 'react-router-dom';
-import { useCreateUserMutation } from '../hooks/mutations';
+import { validatePassword, getFamilyNames, capitalizeFirstLetter } from '../hooks/validations';
 import {EyeFilledIcon} from "./../assets/EyeFilledIcon";
 import {EyeSlashFilledIcon} from "./../assets/EyeSlashFilledIcon";
 import React from 'react';
@@ -9,6 +8,9 @@ import { REGISTER_MUTATION, REGISTER_EXTRA_MUTATION } from '../hooks/mutations';
 import { useMutation } from '@apollo/client';
 
 export default function SignupForm() {
+    //Navigation Usage
+    const navigate = useNavigate();
+
     //Fields
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -21,24 +23,13 @@ export default function SignupForm() {
     //Password Field Visibility
     const toggleVisibility = () => setIsVisible(!isVisible);
     const [isVisible, setIsVisible] = React.useState(false);
+
+    //Mutations (Sending Info)
     var [signinMutation, { loading, error }] = useMutation(REGISTER_MUTATION);
     var [signinExtraMutation, { loading, error }] = useMutation(REGISTER_EXTRA_MUTATION);
+
     //Password Validation
-    const validatePassword = (password) => {
-        const hasLowercase = /[a-z]/.test(password);
-        const hasUppercase = /[A-Z]/.test(password);
-        const hasNumber = /[0-9]/.test(password);
-        const hasSymbol = /[^\w\s]/.test(password);
-        const minLength = 8; // Adjust minimum password length as needed
-      
-        return (
-          hasLowercase &&
-          hasUppercase &&
-          hasNumber &&
-          hasSymbol &&
-          password.length >= minLength
-        );
-      };
+    //validatePassword from validations.jsx
 
     //Form validation function
     const validateForm = () => {
@@ -70,21 +61,6 @@ export default function SignupForm() {
         return Object.keys(newErrors).length === 0; // Return true if no errors
     };
 
-    const getFamilyNames = (parts) => {
-        if (parts.length === 1) {
-            return parts[0];
-        }
-        
-    
-        if (containsNumber(parts[parts.length-1])) {
-            parts.pop()
-        }
-        var familyNames = parts.map(capitalizeFirstLetter)
-        familyNames = familyNames.slice(1).join(' ');
-    
-        return familyNames;
-    }
-
     // After Validation Do ....
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -101,14 +77,13 @@ export default function SignupForm() {
                     },
                 },
             });
-            console.log(data)
             var namePart = email.split('@')[0]
             var nameParts = namePart.split('.');
             var firstName = capitalizeFirstLetter(nameParts[0]);
             var lastName = getFamilyNames(nameParts)
             var isTeacher = !email.includes('@edu'); // True if not edu email
             var userId = data.register.user.id
-            console.log(userId)
+
             var {data} = await signinExtraMutation({
                 variables: {
                     id: userId,
@@ -119,26 +94,20 @@ export default function SignupForm() {
                     },
                 },
             });
-            
-            // Handle successful registration (e.g., navigate to another page)
+
+            navigate('/login');
+
           } catch (errors) {
+            setErrors(errors);
             console.error('Error creating user:', errors);
             console.error('Error creating user:', error);
-            // Handle errors appropriately (e.g., display user-friendly messages)
         }
 
     };
 
-    const capitalizeFirstLetter = (word) => {
-        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-    }
-    
-    const containsNumber = (str) => {
-        return str.search(/\d/) !== -1;
-    }
 
     return (
-        <>
+        <> 
             <div className="flex h-[100vh]">
                 <Card className="ml-auto mr-[auto] mt-[10vh] mb-[15vh] w-[90vw] bg-[#041638] drop-shadow-xl">
                     <CardHeader className="w-[100%] mt-auto">
