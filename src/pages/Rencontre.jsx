@@ -56,7 +56,7 @@ export default function () {
                                 <TableCell>Tony Reichert</TableCell>
                                 <TableCell>CEO</TableCell>
                             </TableRow>
-                            <TableRow key="2">
+                            <TableRow key="3">
                                 <TableCell>Tony Reichert</TableCell>
                                 <TableCell>CEO</TableCell>
                             </TableRow>
@@ -64,31 +64,31 @@ export default function () {
                                 <TableCell>Tony</TableCell>
                                 <TableCell>CEO</TableCell>
                             </TableRow>
-                            <TableRow key="2">
+                            <TableRow key="4">
                                 <TableCell>Tony Reichert</TableCell>
                                 <TableCell>CEO</TableCell>
                             </TableRow>
-                            <TableRow key="2">
+                            <TableRow key="5">
                                 <TableCell>Tony Reichert</TableCell>
                                 <TableCell>CEO</TableCell>
                             </TableRow>
-                            <TableRow key="2">
+                            <TableRow key="6">
                                 <TableCell>Tony Reichert</TableCell>
                                 <TableCell>CEO</TableCell>
                             </TableRow>
-                            <TableRow key="2">
+                            <TableRow key="7">
                                 <TableCell>Tony Reichert</TableCell>
                                 <TableCell>CEO</TableCell>
                             </TableRow>
-                            <TableRow key="2">
+                            <TableRow key="8">
                                 <TableCell>Tony Reichert</TableCell>
                                 <TableCell>CEO</TableCell>
                             </TableRow>
-                            <TableRow key="2">
+                            <TableRow key="9">
                                 <TableCell>Tony Reichert</TableCell>
                                 <TableCell>CEO</TableCell>
                             </TableRow>
-                            <TableRow key="2">
+                            <TableRow key="10">
                                 <TableCell>Tony Reichert</TableCell>
                                 <TableCell>CEO</TableCell>
                             </TableRow>
@@ -104,6 +104,7 @@ export default function () {
                         classNames={{
                             label: "text-gray-100"
                         }}
+                        defaultValue="nom"
                     >
                         <Radio
                             value="nom"
@@ -111,6 +112,7 @@ export default function () {
                             classNames={{
                                 label: "text-gray-100"
                             }}
+                            
                         >
                             Nom
                         </Radio>
@@ -120,6 +122,7 @@ export default function () {
                             classNames={{
                                 label: "text-gray-100"
                             }}
+                            
                         >
                             Matière
                         </Radio>
@@ -130,7 +133,7 @@ export default function () {
                                 Rendez-vous
                             </Button>
                         </Link>
-                        <Link>
+                        <Link to="/formulaireRendezVousGroupe">
                             <Button color="primary" variant="shadow" className="w-40 ml-2 mr-2 mt-2 btnSign">
                                 Rendez-vous groupe
                             </Button>
