@@ -32,8 +32,6 @@ export const getUserById = (id) => {
   return { loading, error, data }
 };
 
-
-
 const GET_MEETINGS_FROM_USER = gql`
 query GetMeetingsFromUserId($userId: ID!) {
   usersPermissionsUser(id: $userId) {
@@ -87,8 +85,6 @@ export const getMeetingsFromUserId =  (id) => {
   return { loading, error, data }
 };
 
-
-
 const USER_SEARCH_BY_STRENGHT = gql`
 query GetUsersByStrenght($strName: String!) {
   usersPermissionsUsers(filters: {
@@ -131,6 +127,19 @@ export const getUsersByStrength =  (strengthName) => {
 
   const { loading, error, data } = useQuery(USER_SEARCH_BY_STRENGHT, {
     variables: { strName: strengthName },
+  });
+  return { loading, error, data }
+};
+
+const GET_REVIEW_NOTIF_FROM_USER = gql`
+CODE POUR GET LES NOTIFS DES REVIEWS
+`;
+
+// count les id des users (c un array) et user, c'est le createur
+export const getReviewNotifFromUserId =  (id) => {
+
+  const { loading, error, data } = useQuery(GET_REVIEWNOTIF_FROM_USER, {
+    variables: { userId: id },
   });
   return { loading, error, data }
 };
