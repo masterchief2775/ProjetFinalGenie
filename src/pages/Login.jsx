@@ -63,7 +63,7 @@ export default function Login() {
       console.log(userId)
       localStorage.clear();
       localStorage.setItem('jwtToken', token);
-      localStorage.setItem('id', userId);
+      localStorage.setItem('userId', userId);
 
       navigate('/');
 

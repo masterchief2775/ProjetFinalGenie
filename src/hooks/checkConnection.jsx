@@ -1,42 +1,40 @@
 import { useState, useEffect } from 'react';
 
-export default function checkUserData(setToken) {
-  const [hasData, setHasData] = useState(false);
-  const [userId, setUserId] = useState(null);
-
-  const fetchData = (callback) => {
-    try {
-      console.log(localStorage.getItem("jwtToken"))
-      fetch('http://52.242.29.209:1337/api/users/me', {
-        headers: {
-          Authorization: `Bearer ${setToken}`,
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('API request failed');
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setHasData(data.hasOwnProperty('id'));
-          setUserId(data.id);
-          callback(data); // Call the callback function with data
-        })
-        .catch((error) => {
-          console.error('Error fetching user data:', error);
-        });
-    } catch (error) {
-      console.error('Couldn\'t fetch, returning to login');
-    }
-  };
+const checkUserData = async () => {
+  const [isConnected, setIsConnected] = useState(false); // Initial state
 
   useEffect(() => {
-    fetchData((data) => {
-      // You can potentially use the data argument here if needed
-      console.log('Data from fetchData:', data); // Example usage
-    });
-  }, [setToken]); // Only re-run fetchData when setToken changes
+    const storedToken = localStorage.getItem('jwtToken');
 
-  return hasData;
-}
+    const fetchData = async () => {
+      if (storedToken) {
+        try {
+          const response = await fetch('http://52.242.29.209:1337/api/users/me', {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+            },
+          });
+
+          if (response.ok) { // Check for successful response (status code 200)
+            console.log("User is connected")
+            setIsConnected(true); // Set isConnected based on data existence
+          } else {
+            console.error('Error fetching user data:', response.statusText);
+            setIsConnected(false); // Set to false on error
+          }
+        } catch (error) {
+          console.error('Error checking user connection:', error);
+          setIsConnected(false); // Set to false on error
+        }
+      } else {
+        setIsConnected(false); // Set to false if no token is found
+      }
+    };
+
+    fetchData(); // Execute the function on component mount
+  }, []); // Empty dependency array to run only once on mount
+
+  return isConnected;
+};
+
+export default checkUserData;
