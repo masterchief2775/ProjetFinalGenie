@@ -1,9 +1,9 @@
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'
 import { Card, CardHeader, CardBody, CardFooter, Button, Input, Divider } from "@nextui-org/react";
 import { validatePassword, getFamilyNames, capitalizeFirstLetter } from '../hooks/validations';
 import {EyeFilledIcon} from "./../assets/EyeFilledIcon";
 import {EyeSlashFilledIcon} from "./../assets/EyeSlashFilledIcon";
-import React from 'react';
 import { REGISTER_MUTATION, REGISTER_EXTRA_MUTATION } from '../hooks/mutations';
 import { useMutation } from '@apollo/client';
 
@@ -22,7 +22,7 @@ export default function SignupForm() {
     
     //Password Field Visibility
     const toggleVisibility = () => setIsVisible(!isVisible);
-    const [isVisible, setIsVisible] = React.useState(false);
+    const [isVisible, setIsVisible] = useState(false);
 
     //Mutations (Sending Info)
     var [signinMutation, { loading, error }] = useMutation(REGISTER_MUTATION);
