@@ -7,9 +7,7 @@ import HeroiconsTrashSolid from '~icons/heroicons/trash-solid';
 
 
 export default function () {
-  const { id } = useParams(); // Extract the ID from URL parameters
-  console.log(id)
-  const { loading, error, data } = getUserById(id)
+  const { loading, error, data } = getUserById('me')
 
 
   if (loading) return <p>Loading user...</p>;
@@ -17,7 +15,10 @@ export default function () {
 
   const user = data?.usersPermissionsUser?.data?.attributes;
   let userColor = "primary"
-  let userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url //"http://52.242.29.209:1337" + data.picture.url
+  let userImage = ""
+  if (user.picture.data?.attributes?.url) {
+    userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url
+  }
   let userName = user.firstName + " " + user.lastName
   let userEmail = user.email
   let userApp = user.reviewAvg + "☆"

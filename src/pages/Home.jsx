@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Avatar, AvatarGroup, AvatarIcon, Button } from "@nextui-org/react";
-
+import { Link } from "react-router-dom";
 export default function () {
     //const id = "Math"
     //const navigate = useNavigate();

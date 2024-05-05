@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 //import LogoutComponent from '../components/LogoutComponent'
-import { Avatar, Chip, Button, Divider, Calendar, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
+import { Card, CardHeader, CardBody, CardFooter, Avatar, Divider, Chip, Button, Calendar, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import { useParams, useLocation } from 'react-router-dom'
 import { getUserById } from '../hooks/userFetching';
-
+import SettingIcon from '~icons/heroicons/cog-8-tooth-16-solid'
 
 
 export default function () {
@@ -37,9 +37,10 @@ export default function () {
 
   return (
     <>
-      <Card className="ml-auto mr-[auto] w-[90vw] bg-[#041638] drop-shadow-xl">
+      <Card className="m-auto w-[90vw] mt-[8vh] bg-[#041638] drop-shadow-xl">
         <CardHeader className="w-[100%] mb-2">
           <h1 className="text-center text-primary-500 text-4xl font-bold mx-auto titre">Profile</h1>
+          {isOnSelf ? <SettingIcon className="w-9 h-9 mb-.5 text-customColor"/> : ''}
         </CardHeader>
         <CardBody className="w-[100%]">
           <div className='flex'>

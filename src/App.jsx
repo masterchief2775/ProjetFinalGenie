@@ -28,7 +28,7 @@ function App() {
       <BrowserRouter>
         <ApolloProvider client={client}>
           <Header />
-          <div>
+          <div className='h-[100%] bg-[#092d74]'>
             <Routes>
               <Route index element={<Home />} />
               <Route path="/home" element={<Home />} />
@@ -41,7 +41,7 @@ function App() {
               <Route path="/formulaireAvis" element={<FormulaireAvis />} />
               <Route path="/formulaireRendezVous" element={<FormulaireRendezVous />} />
               <Route path="/formulaireRendezVousGroupe" element={<FormulaireRendezVousGroupe />} />
-              <Route path="/modProfile/:id" element={<ModProfile />} />
+              <Route path="/modProfile" element={<ModProfile />} />
 
 
               <Route path="*" element={<NoPage />} />

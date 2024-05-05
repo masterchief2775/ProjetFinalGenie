@@ -13,10 +13,10 @@ function Footer() {
   const location = useLocation();
   const shouldHideFooter = location.pathname === '/login' || location.pathname === '/signin';
   const isOnSelf = location.pathname === '/Profile/me'
+  var isConnected = checkUserData()
   useEffect(() => {
-    var isConnected = checkUserData()
     setShouldNavigate(!isConnected)
-  }, []);
+  }, [isConnected]);
 
   useEffect(() => {
     if (shouldNavigate) {
