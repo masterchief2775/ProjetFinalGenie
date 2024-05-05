@@ -1,38 +1,34 @@
 import { useState, useEffect } from 'react';
 
-const checkUserData = async () => {
-  const [isConnected, setIsConnected] = useState(false); // Initial state
+function checkUserData() {
+  var isConnected = false;
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem('jwtToken');
+  const storedToken = localStorage.getItem('jwtToken');
+  const fetchData = async () => {
+    if (storedToken && storedToken != null) {
+      try {
+        const response = await fetch('http://52.242.29.209:1337/api/users/me', {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
+        });
 
-    const fetchData = async () => {
-      if (storedToken) {
-        try {
-          const response = await fetch('http://52.242.29.209:1337/api/users/me', {
-            headers: {
-              Authorization: `Bearer ${storedToken}`,
-            },
-          });
-
-          if (response.ok) { // Check for successful response (status code 200)
-            console.log("User is connected")
-            setIsConnected(true); // Set isConnected based on data existence
-          } else {
-            console.error('Error fetching user data:', response.statusText);
-            setIsConnected(false); // Set to false on error
-          }
-        } catch (error) {
-          console.error('Error checking user connection:', error);
-          setIsConnected(false); // Set to false on error
+        if (response.ok) { // Check for successful response (status code 200)
+          console.log("User is connected")
+          isConnected = true // Set isConnected based on data existence
+        } else {
+          console.error('Error fetching user data:', response.statusText);
+          isConnected = false // Set to false on error
         }
-      } else {
-        setIsConnected(false); // Set to false if no token is found
+      } catch (error) {
+        console.error('Error checking user connection:', error);
+        isConnected = false // Set to false on error
       }
-    };
-
-    fetchData(); // Execute the function on component mount
-  }, []); // Empty dependency array to run only once on mount
+    } else {
+      isConnected = false // Set to false if no token is found
+    }
+  };
+  fetchData(); // Execute the function on component mount
 
   return isConnected;
 };

@@ -61,7 +61,6 @@ export default function Login() {
       const token = data.login.jwt;
       const userId = data.login.user.id;
       console.log(userId)
-      localStorage.clear();
       localStorage.setItem('jwtToken', token);
       localStorage.setItem('userId', userId);
 

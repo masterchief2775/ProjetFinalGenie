@@ -1,14 +1,18 @@
 import { Link } from 'react-router-dom'
-import LogoutComponent from '../components/LogoutComponent'
+//import LogoutComponent from '../components/LogoutComponent'
 import { Avatar, Chip, Button, Divider, Calendar, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import { getUserById } from '../hooks/userFetching';
 
 
 
 export default function () {
-  const { id } = useParams(); // Extract the ID from URL parameters
-  console.log(id)
+  var { id } = useParams(); // Extract the ID from URL parameters
+  const location = useLocation();
+  const isOnSelf = location.pathname === '/Profile/me' //Value to check if user is curently on his own profile
+  if(isOnSelf) {
+    id = 'me'
+  }
   const { loading, error, data } = getUserById(id)
   
   
@@ -31,10 +35,9 @@ export default function () {
     userType = "Enseignant"
   }
 
-
+//<LogoutComponent userId={userId} id={id}/>
   return (
     <>
-      <LogoutComponent userId={userId} id={id}/>
       <div className="pl-[2vw] flex w-[100vw] h-[30vh]">
         <div className='w-[28vw]'>
           <Avatar classNames={{
