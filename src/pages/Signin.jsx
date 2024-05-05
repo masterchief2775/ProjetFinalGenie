@@ -19,7 +19,7 @@ export default function SignupForm() {
 
     //Errors
     const [errors, setErrors] = useState({}); // State for storing error messages
-    
+
     //Password Field Visibility
     const toggleVisibility = () => setIsVisible(!isVisible);
     const [isVisible, setIsVisible] = useState(false);
@@ -140,7 +140,7 @@ export default function SignupForm() {
                                     label="Nom d'utilisateur"
                                     size="md"
                                     placeholder="Alternatif à l'email lors de la connection"
-                                    
+
                                     isRequired
                                     value={username}
                                     isInvalid={errors.username != null}
@@ -156,7 +156,7 @@ export default function SignupForm() {
                                     label="Mot de passe"
                                     size="md"
                                     placeholder="Entrez votre mot de passe"
-                                    
+
                                     isRequired
                                     value={password}
                                     isInvalid={errors.password != null}
@@ -164,13 +164,13 @@ export default function SignupForm() {
                                     onChange={(e) => setPassword(e.target.value)}
                                     endContent={
                                         <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
-                                          {isVisible ? (
-                                            <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                                          ) : (
-                                            <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                                          )}
+                                            {isVisible ? (
+                                                <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                            ) : (
+                                                <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                            )}
                                         </button>
-                                      }
+                                    }
                                     type={isVisible ? "text" : "password"}
 
                                     className="w-[98%] ml-auto mr-[auto] mt-[3vh]"
@@ -189,29 +189,27 @@ export default function SignupForm() {
                                     onChange={(e) => setConfirmPassword(e.target.value)}
                                     endContent={
                                         <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
-                                          {isVisible ? (
-                                            <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                                          ) : (
-                                            <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
-                                          )}
+                                            {isVisible ? (
+                                                <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                            ) : (
+                                                <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                            )}
                                         </button>
-                                      }
+                                    }
                                     type={isVisible ? "text" : "password"}
 
                                     className="w-[98%] ml-auto mr-[auto] mt-[2vh]"
                                 />
                             </div>
-                            <CardFooter>
-                                <div to="/home" className="w-[50%] ml-auto mr-[auto] my-[1vh]">
-                                    <Button color="success" variant="shadow" className="w-[100%] btnCon" onClick={handleSubmit}>
-                                        Confirmer
-                                    </Button>
-
-                                </div>
-                            </CardFooter>
                         </form>
                     </CardBody>
-                    <Divider className="dividerProfil" />
+                    <CardFooter>
+                        <div to="/home" className="w-[50%] ml-auto mr-[auto] my-[1vh]">
+                            <Button color="primary" variant="shadow" className="w-[80%] ml-[10%] btnCon" onClick={handleSubmit}>
+                                Confirmer
+                            </Button>
+                        </div>
+                    </CardFooter>
                 </Card>
             </div>
         </>
