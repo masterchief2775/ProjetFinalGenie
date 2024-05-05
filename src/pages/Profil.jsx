@@ -17,7 +17,11 @@ export default function () {
   
   const user = data?.usersPermissionsUser?.data?.attributes;
   let userColor = "default"
-  let userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url //"http://52.242.29.209:1337" + data.picture.url
+  let userImage = ""
+  if (user.picture.data?.attributes?.url) {
+    userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url
+  }
+  
   let userName = user.firstName + " " + user.lastName
   let userEmail = user.email
   let userApp = user.reviewAvg + "☆"
