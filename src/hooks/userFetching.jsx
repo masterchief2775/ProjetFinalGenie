@@ -17,6 +17,14 @@ const GET_USER_BY_ID = gql`
               }
             }
           }
+          strengths {
+            data {
+              attributes {
+                name
+                color
+              }
+            }
+          }
         }
       }
     }
@@ -63,8 +71,6 @@ export const useGetSelf = () => {
 
   return { loading, error, data, refetch }; // Expose loading, error, data, and refetch functionality
 };
-
-
 
 const GET_MEETINGS_FROM_USER = gql`
 query GetMeetingsFromUserId($userId: ID!) {
@@ -119,8 +125,6 @@ export const getMeetingsFromUserId = (id) => {
   return { loading, error, data }
 };
 
-
-
 const USER_SEARCH_BY_STRENGHT = gql`
 query GetUsersByStrenght($strName: String!) {
   usersPermissionsUsers(filters: {
@@ -166,3 +170,16 @@ export const getUsersByStrength = (strengthName) => {
   });
   return { loading, error, data }
 };
+/*
+const GET_REVIEW_NOTIF_FROM_USER = gql`
+CODE POUR GET LES NOTIFS DES REVIEWS
+`;*/
+/*
+// count les id des users (c un array) et user, c'est le createur
+export const getReviewNotifFromUserId =  (id) => {
+
+  const { loading, error, data } = useQuery(GET_REVIEWNOTIF_FROM_USER, {
+    variables: { userId: id },
+  });
+  return { loading, error, data }
+};*/

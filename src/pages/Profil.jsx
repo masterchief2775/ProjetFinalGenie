@@ -22,6 +22,7 @@ export default function () {
   const user = data?.usersPermissionsUser?.data?.attributes;
   let userColor = "primary"
   let userImage = ""
+  console.log(user)
   if (user.picture.data?.attributes?.url) {
     userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url
   }
