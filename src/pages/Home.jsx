@@ -56,6 +56,7 @@ export default function () {
                         <Button color="primary" variant="shadow" className="w-[80%] ml-[10%] btnCon" >
                             Terminé
                         </Button>
+                        
                     </Link>
                     </CardFooter>
                     )}
@@ -67,8 +68,7 @@ export default function () {
             )
         /*
             
-                
-                
+                /*LE MODÈLE DE CARD POUR SI ON AJOUTE CONFIRMER UN RENDEZ-VOUS
                 <Card className=" ml-auto mr-[auto] w-[90vw] mt-[2vh]">
                     <CardHeader className="flex gap-3">
                         <div className="relative mr-[1.6rem] ml-[1.3rem] translate-x-[-1.35rem] translate-y-[-1.5rem]">
