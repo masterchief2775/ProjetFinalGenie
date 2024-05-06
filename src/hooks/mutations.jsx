@@ -87,7 +87,7 @@ mutation deleteNotifReview ($id: NotifReviewEntityResponse) {
 /*IL FAUT AVOIR DES PERMITIONS APPAREMENT*/
 
 export const CREATE_REVIEW = gql`
-  mutation CreateReview($data: MeetingEntityResponse!) {
+  mutation CreateReview($data: ReviewEntityResponse!) {
     createReview(data: $data) {
       data {
           id
