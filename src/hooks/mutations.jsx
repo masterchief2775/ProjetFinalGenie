@@ -49,7 +49,7 @@ export const createUser = async (username, email, password) => {
   });
   // Handle response data and errors
 };
-
+/*
 export const CREATE_MEETING = gql`
   mutation CreateMeeting($data: MeetingInput!) {
     createMeeting(data: $data) {
@@ -58,8 +58,7 @@ export const CREATE_MEETING = gql`
         }	
       }
     }
-;
-`;
+`;*/
 
 /*DATA DOIS AVOIR UNE LIISTE D'ID DES PERSONNE DÉJÀ DANS LE GROUPE + LA NOUVELLE*/
 export const JOIN_MEETING = gql`
@@ -84,7 +83,7 @@ mutation deleteNotifReview ($id: NotifReviewEntityResponse) {
 `;*/
 
 /*IL FAUT AVOIR DES PERMITIONS APPAREMENT*/
-
+/*
 export const CREATE_REVIEW = gql`
   mutation CreateReview($data: MeetingEntityResponse!) {
     createReview(data: $data) {
@@ -93,6 +92,6 @@ export const CREATE_REVIEW = gql`
         }	
       }
     }
-;
 `;
 
+*/
