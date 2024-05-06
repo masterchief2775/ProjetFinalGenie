@@ -90,6 +90,7 @@ query GetMeetingsFromUserId($userId: ID!) {
               endTime
               users_permissions_user {
                 data {
+                  id
                   attributes {
                     firstName
                     lastName

@@ -1,15 +1,51 @@
 import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Avatar, AvatarGroup, AvatarIcon, Button } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { getMeetingsFromUserId } from "../hooks/userFetching";
-export default function () {
-    const { loading, error, data } = getMeetingsFromUserId(localStorage.getItem("userId"))
+import { CREATE_NOTIFREVIEW, UPDATE_MEETING_STATUS } from "../hooks/mutations";
+import { useMutation } from '@apollo/client';
+
+export default function Accueil() {
+    let userId = localStorage.getItem("userId")
+    const { loading, error, data } = getMeetingsFromUserId(userId)
+
+        const [createNotifReview, { loading: loadingCreate, error: errorCreate }] = useMutation(CREATE_NOTIFREVIEW);
+        const [updateMeetingStatus, { loading: loadingUpdate, error: errorUpdate }] = useMutation(UPDATE_MEETING_STATUS);
+
 
         if (loading) return <p>Loading user...</p>;
         if (error) return <p>Error fetching user: {error.message}</p>;
         
         const TableauMeeting = data?.usersPermissionsUser?.data?.attributes?.meetings?.data;
 
-       
+        const handleTerminerMeeting = async (meetingId,reviewerId,reviewedId) => {
+            try{
+                const { data: createNotifReviewData } = await createNotifReview({
+                    /*variables: {*/
+                        data: {
+                            users_permissions_reviewer: reviewerId,
+                            users_permissions_revieweds: reviewedId
+                        }
+                    /*}*/
+                });
+
+                const { data :  updateMeetingData} = await updateMeetingStatus({
+                    /*variables:{*/
+                        data: {
+                            id: meetingId,
+                            attributes:{
+                                isFinished: true
+                            }
+                        /*}*/
+                    }
+                  });
+
+                console.log("Données mises à jour de la réunion:", updateMeetingData);
+                console.log("Données de notification de review créées:", createNotifReviewData);
+            } catch(error){
+                console.error("Une erreur s'est produite:", error);
+            }
+        }
+
         return (
             <div className="ml-auto mr-[auto] w-[100vw] h-[100hv]">
 
@@ -52,12 +88,9 @@ export default function () {
                     <Divider />
                     {meeting.attributes.isFinished === false &&(
                     <CardFooter>
-                    <Link to="/avis" className="w-[50%] mx-[auto]">
-                        <Button color="primary" variant="shadow" className="w-[80%] ml-[10%] btnCon" >
+                        <Button color="primary" variant="shadow" className="w-[80%] ml-[10%] btnCon" onClick={() => handleTerminerMeeting(meeting.id,userId,meeting.attributes.users_permissions_user.data.id)} >
                             Terminé
                         </Button>
-                        
-                    </Link>
                     </CardFooter>
                     )}
                 </Card>

@@ -73,6 +73,16 @@ mutation joinMeeting($data: MeetingEntityResponse!) {
 }
 `;
 
+export const CREATE_NOTIFREVIEW = gql`
+  mutation CreateNotifReview($data:  NotifReviewEntityResponse!) {
+    createNotifReview(data: $data) {
+      data {
+          id
+        }	
+      }
+    }
+`;
+
 export const UPDATE_MEETING_STATUS = gql`
 mutation UpdateMeetingStatus ($id: ID!, $data:  MeetingEntityResponse!) {
   updateMeeting(id: $id, data: $data) {
@@ -85,40 +95,6 @@ mutation UpdateMeetingStatus ($id: ID!, $data:  MeetingEntityResponse!) {
  }
 }
 `;
-
-export const updateMeetingStatus = async (meetingId) => {
-  const { data } = await client.mutate({
-    mutation: UPDATE_MEETING_STATUS, // Assuming you have REGISTER_MUTATION defined
-    variables: {
-      id: meetingId,
-      data:{
-        isFinished: true
-      }
-    },
-  });
-  // Handle response data and errors
-};
-
-export const CREATE_NOTIFREVIEW = gql`
-  mutation CreateNotifReview($data:  NotifReviewEntityResponse!) {
-    createNotifReview(data: $data) {
-      data {
-          id
-        }	
-      }
-    }
-`;
-
-export const createNotifReview = async (users_permissions_reviewer, users_permissions_revieweds) => {
-  const { data } = await client.mutate({
-    mutation: CREATE_NOTIFREVIEW, 
-    variables: {
-      users_permissions_reviewer,
-      users_permissions_revieweds
-    },
-  });
-  // Handle response data and errors
-};
 
 export const DELETE_NOTIFREVIEW = gql`
 mutation deleteNotifReview ($id: NotifReviewEntityResponse) {
