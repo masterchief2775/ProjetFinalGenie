@@ -81,6 +81,7 @@ query GetMeetingsFromUserId($userId: ID!) {
           data {
             id
             attributes {
+              isFinished
               name
               location
               date
