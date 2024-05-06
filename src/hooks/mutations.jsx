@@ -95,3 +95,32 @@ export const CREATE_REVIEW = gql`
 `;
 
 */
+
+export const CREATE_MATIERE = gql`
+  mutation CreateMatiere($data: SubjectEntityResponse!) {
+    createSubject(data: $data) {
+      data {
+          id
+        }	
+      }
+    }
+`;
+
+export const UPDATE_MATIERE = gql`
+  mutation CreateMatiere($id: ID!, $strengths: [ID!]) {
+    updateUsersPermissionsUser(id: $id, data: {strengths: $strengths}) {
+      data {
+        id
+        attributes {  # Add the user to the relationship field
+          strengths {
+            data {
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
