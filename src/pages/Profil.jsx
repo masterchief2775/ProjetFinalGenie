@@ -20,7 +20,7 @@ export default function () {
   if (error) return <p>Error fetching user: {error.message}</p>;
 
   const user = data?.usersPermissionsUser?.data?.attributes;
-  let userColor = "default"
+  let userColor = "primary"
   let userImage = ""
   console.log(user)
   if (user.picture.data?.attributes?.url) {
@@ -38,10 +38,13 @@ export default function () {
 
   return (
     <>
-      <Card className="m-auto w-[90vw] mt-[8vh] bg-[#041638] drop-shadow-xl">
+      <Card className="m-auto w-[90vw] mt-[3vh] bg-[#041638] drop-shadow-xl">
         <CardHeader className="w-[100%] mb-2">
           <h1 className="text-center text-primary-500 text-4xl font-bold mx-auto titre">Profile</h1>
-          {isOnSelf ? <SettingIcon className="w-9 h-9 mb-.5 text-customColor"/> : ''}
+          
+          {isOnSelf ?<Link to="/modProfile"> <SettingIcon className="w-9 h-9 mb-.5 text-customColor"/> </Link>: ''}
+          
+          
         </CardHeader>
         <CardBody className="w-[100%]">
           <div className='flex'>
