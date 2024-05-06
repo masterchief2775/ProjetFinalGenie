@@ -1,14 +1,27 @@
 import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Avatar, AvatarGroup, AvatarIcon, Button } from "@nextui-org/react";
 import { Link } from "react-router-dom";
-export default function () {
-    //const id = "Math"
-    //const navigate = useNavigate();
-    //const { loading, error, data } = getUsersByStrength(id)
+import { getMeetingsFromUserId } from "../hooks/userFetching";
+export default function () {/*
+    var { id } = useParams(); // Extract the ID from URL parameters
+    const location = useLocation();
+    const { loading, error, data } = getMeetingsFromUserId(id)
+        if (loading) return <p>Loading user...</p>;
+        if (error) return <p>Error fetching user: {error.message}</p>;
+*/
+       /* const TableauMeeting = data.map(item => ({
+            meetingId: item.id,
+            name: item.name,
+            date: item.date,
+            subject:  item.subject,
+            
+          }));
+    
+        {this.props.TableauMeeting.map((element, i) => {
+            console.log(element);*/
+            return (
 
-    //if (loading) return <p>Loading user...</p>;
-    //if (error) return <p>Error fetching user: {error.message}</p>;
-    //const user = data?.usersPermissionsUser?.data?.attributes;
-    return (
+            /*)
+        })}*/
             <div className="ml-auto mr-[auto] w-[100vw] h-[100hv]">
 
                 <div className="header h-[6vh] mb-[5vh]">

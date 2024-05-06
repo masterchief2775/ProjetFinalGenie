@@ -163,9 +163,11 @@ export const getUsersByStrength = (strengthName) => {
   return { loading, error, data }
 };
 
+/*
 const GET_REVIEW_NOTIF_FROM_USER = gql`
 CODE POUR GET LES NOTIFS DES REVIEWS
 `;
+*/
 
 // count les id des users (c un array) et user, c'est le createur
 export const getReviewNotifFromUserId =  (id) => {

@@ -58,10 +58,11 @@ export const CREATE_MEETING = gql`
         }	
       }
     }
-;
 `;
 
+
 /*DATA DOIS AVOIR UNE LIISTE D'ID DES PERSONNE DÉJÀ DANS LE GROUPE + LA NOUVELLE*/
+
 export const JOIN_MEETING = gql`
 mutation joinMeeting($data: MeetingEntityResponse!) {
   updateMeeting(data: $data) {
@@ -72,7 +73,7 @@ mutation joinMeeting($data: MeetingEntityResponse!) {
 }
 `;
 
-/*
+
 export const DELETE_NOTIFREVIEW = gql`
 mutation deleteNotifReview ($id: NotifReviewEntityResponse) {
   deleteNotifReview(id: $id){
@@ -81,7 +82,7 @@ mutation deleteNotifReview ($id: NotifReviewEntityResponse) {
     }
   }
 }
-`;*/
+`;
 
 /*IL FAUT AVOIR DES PERMITIONS APPAREMENT*/
 
@@ -93,6 +94,5 @@ export const CREATE_REVIEW = gql`
         }	
       }
     }
-;
 `;
 
