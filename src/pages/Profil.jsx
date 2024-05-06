@@ -1,14 +1,18 @@
 import { Link } from 'react-router-dom'
-import LogoutComponent from '../components/LogoutComponent'
-import { Avatar, Chip, Button, Divider, Calendar, Popover, PopoverContent, PopoverTrigger, Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
-import { useParams } from 'react-router-dom'
+//import LogoutComponent from '../components/LogoutComponent'
+import { Card, CardHeader, CardBody, CardFooter, Avatar, Divider, Chip, Button, Calendar, Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
+import { useParams, useLocation } from 'react-router-dom'
 import { getUserById } from '../hooks/userFetching';
-
+import SettingIcon from '~icons/heroicons/cog-8-tooth-16-solid'
 
 
 export default function () {
-  const { id } = useParams(); // Extract the ID from URL parameters
-  console.log(id)
+  var { id } = useParams(); // Extract the ID from URL parameters
+  const location = useLocation();
+  const isOnSelf = location.pathname === '/Profile/me' //Value to check if user is curently on his own profile
+  if(isOnSelf) {
+    id = 'me'
+  }
   const { loading, error, data } = getUserById(id)
 
 
@@ -16,8 +20,12 @@ export default function () {
   if (error) return <p>Error fetching user: {error.message}</p>;
 
   const user = data?.usersPermissionsUser?.data?.attributes;
-  let userColor = "primary"
-  let userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url //"http://52.242.29.209:1337" + data.picture.url
+  let userColor = "default"
+  let userImage = ""
+  if (user.picture.data?.attributes?.url) {
+    userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url
+  }
+  
   let userName = user.firstName + " " + user.lastName
   let userEmail = user.email
   let userApp = user.reviewAvg + "☆"
@@ -29,10 +37,10 @@ export default function () {
 
   return (
     <>
-      <LogoutComponent userId={userId} id={id} />
-      <Card className="ml-auto mr-[auto] w-[90vw] bg-[#041638] drop-shadow-xl">
+      <Card className="m-auto w-[90vw] mt-[8vh] bg-[#041638] drop-shadow-xl">
         <CardHeader className="w-[100%] mb-2">
           <h1 className="text-center text-primary-500 text-4xl font-bold mx-auto titre">Profile</h1>
+          {isOnSelf ? <SettingIcon className="w-9 h-9 mb-.5 text-customColor"/> : ''}
         </CardHeader>
         <CardBody className="w-[100%]">
           <div className='flex'>

@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql, useMutation } from '@apollo/client';
 
 export const LOGIN_MUTATION = gql`
   mutation Login($input: UsersPermissionsLoginInput!) {
@@ -18,22 +18,7 @@ export const LOGIN_MUTATION = gql`
       }
     }
   }
-`;
-
-const REGISTER_MUTATION = gql`
-mutation register($username: String!, $email: String!, $password: String!) {
-  register(input: { username: $username, email: $email, password: $password }) {
-    jwt
-    user {
-      id
-      username
-      email
-      role {
-        name
-      }
-    }
-  }
-}`;
+`;  
 
 export const REGISTER_EXTRA_MUTATION = gql`
 mutation registerExtra($id: ID!, $data: UsersPermissionsUserInput!) {
@@ -43,6 +28,27 @@ mutation registerExtra($id: ID!, $data: UsersPermissionsUserInput!) {
     }
   } 
 }`;
+
+export const REGISTER_MUTATION = gql`
+mutation register($input: UsersPermissionsRegisterInput!) {
+  register(input: $input) {
+    user {
+      id
+    }
+  } 
+}`;
+
+export const createUser = async (username, email, password) => {
+  const { data } = await client.mutate({
+    mutation: REGISTER_MUTATION, // Assuming you have REGISTER_MUTATION defined
+    variables: {
+      username,
+      email,
+      password,
+    },
+  });
+  // Handle response data and errors
+};
 
 export const CREATE_MEETING = gql`
   mutation CreateMeeting($data: MeetingInput!) {

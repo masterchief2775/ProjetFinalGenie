@@ -1,24 +1,13 @@
 import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Avatar, AvatarGroup, AvatarIcon, Button } from "@nextui-org/react";
-import { getUsersByStrength } from '../hooks/userFetching';
-import checkUserData from '../hooks/checkConnection';
-import { Link,useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
 export default function () {
-    const id = "Math"
-    const navigate = useNavigate();
-    const connected = checkUserData(localStorage.getItem("jwtToken"))
-    if (connected) {
-        console.log("Connected")
-    } else {
-        console.log("Not Connected")
-        navigate('/login')
-    }
-    const { loading, error, data } = getUsersByStrength(id)
+    //const id = "Math"
+    //const navigate = useNavigate();
+    //const { loading, error, data } = getUsersByStrength(id)
 
-    if (loading) return <p>Loading user...</p>;
-    if (error) return <p>Error fetching user: {error.message}</p>;
-    console.log(data)
-    const user = data?.usersPermissionsUser?.data?.attributes;
+    //if (loading) return <p>Loading user...</p>;
+    //if (error) return <p>Error fetching user: {error.message}</p>;
+    //const user = data?.usersPermissionsUser?.data?.attributes;
     return (
             <div className="ml-auto mr-[auto] w-[100vw] h-[100hv]">
 

@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client';
-
+import { useState } from 'react';
 const GET_USER_BY_ID = gql`
   query GetUserById($userId: ID!) {
     usersPermissionsUser(id: $userId) {
@@ -23,13 +23,45 @@ const GET_USER_BY_ID = gql`
   }
 `;
 
-export const getUserById = (id) => {
+const GET_SELF = gql`
+  query Me {
+    me {
+      id
+    }
+  }
+`;
 
-  // Use the GET_USER_BY_ID query with useQuery
+export const getUserById = (id) => {
+  if (id == 'me') {
+    console.log("id is me")
+    id = useGetSelf()
+    console.log(id)
+    id = id.data?.id
+  }
+
+  console.log(id)
   const { loading, error, data } = useQuery(GET_USER_BY_ID, {
-    variables: { userId: id }, // Pass the ID as a variable
+    variables: { userId: id },
   });
+
   return { loading, error, data }
+};
+
+export const useGetSelf = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const { refetch } = useQuery(GET_SELF, {
+    context: { headers: { Authorization: `Bearer ${localStorage.getItem('jwtToken')}` } },
+    onError: (err) => setError(err),
+    onCompleted: (data) => {
+      setData(data.me);
+      setLoading(false);
+    },
+  });
+
+  return { loading, error, data, refetch }; // Expose loading, error, data, and refetch functionality
 };
 
 const GET_MEETINGS_FROM_USER = gql`
@@ -77,7 +109,7 @@ query GetMeetingsFromUserId($userId: ID!) {
 `;
 
 // count les id des users (c un array) et user, c'est le createur
-export const getMeetingsFromUserId =  (id) => {
+export const getMeetingsFromUserId = (id) => {
 
   const { loading, error, data } = useQuery(GET_MEETINGS_FROM_USER, {
     variables: { userId: id },
@@ -123,7 +155,7 @@ query GetUsersByStrenght($strName: String!) {
 `;
 
 // join FirstName et lastName pis check localement
-export const getUsersByStrength =  (strengthName) => {
+export const getUsersByStrength = (strengthName) => {
 
   const { loading, error, data } = useQuery(USER_SEARCH_BY_STRENGHT, {
     variables: { strName: strengthName },

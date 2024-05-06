@@ -1,11 +1,16 @@
 import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom'
 import { Card, CardHeader, CardBody, CardFooter, Button, Input, Divider } from "@nextui-org/react";
-import { Link } from 'react-router-dom';
-import { EyeFilledIcon } from "./../assets/EyeFilledIcon";
-import { EyeSlashFilledIcon } from "./../assets/EyeSlashFilledIcon";
-import React from 'react';
+import { validatePassword, getFamilyNames, capitalizeFirstLetter } from '../hooks/validations';
+import {EyeFilledIcon} from "./../assets/EyeFilledIcon";
+import {EyeSlashFilledIcon} from "./../assets/EyeSlashFilledIcon";
+import { REGISTER_MUTATION, REGISTER_EXTRA_MUTATION } from '../hooks/mutations';
+import { useMutation } from '@apollo/client';
 
 export default function SignupForm() {
+    //Navigation Usage
+    const navigate = useNavigate();
+
     //Fields
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -17,31 +22,21 @@ export default function SignupForm() {
 
     //Password Field Visibility
     const toggleVisibility = () => setIsVisible(!isVisible);
-    const [isVisible, setIsVisible] = React.useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+
+    //Mutations (Sending Info)
+    var [signinMutation, { loading, error }] = useMutation(REGISTER_MUTATION);
+    var [signinExtraMutation, { loading, error }] = useMutation(REGISTER_EXTRA_MUTATION);
 
     //Password Validation
-    const validatePassword = (password) => {
-        const hasLowercase = /[a-z]/.test(password);
-        const hasUppercase = /[A-Z]/.test(password);
-        const hasNumber = /[0-9]/.test(password);
-        const hasSymbol = /[^\w\s]/.test(password);
-        const minLength = 8; // Adjust minimum password length as needed
-
-        return (
-            hasLowercase &&
-            hasUppercase &&
-            hasNumber &&
-            hasSymbol &&
-            password.length >= minLength
-        );
-    };
+    //validatePassword from validations.jsx
 
     //Form validation function
     const validateForm = () => {
         const newErrors = {};
         if (!email) {
             newErrors.email = 'L\'adresse email est requise.';
-        } else if (!/.*\.cegeptr\.qc\.ca$/.test(email)) {
+        } else if (!/.*cegeptr\.qc\.ca$/.test(email)) {
             newErrors.email = 'L\'adresse email doit être du domaine du cegep.';
         }
 
@@ -66,22 +61,53 @@ export default function SignupForm() {
         return Object.keys(newErrors).length === 0; // Return true if no errors
     };
 
-
     // After Validation Do ....
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
         if (!validateForm()) return; // Don't submit if validation fails
 
-        // Handle form submission logic here (e.g., call your mutation)
-        console.log('Submitting registration:', {
-            email,
-            password,
-        }); // Replace with your mutation call and error handling
+        try {
+            var {data} = await signinMutation({
+                variables: {
+                    input: {
+                        username: username,
+                        email: email,
+                        password: password,
+                    },
+                },
+            });
+            var namePart = email.split('@')[0]
+            var nameParts = namePart.split('.');
+            var firstName = capitalizeFirstLetter(nameParts[0]);
+            var lastName = getFamilyNames(nameParts)
+            var isTeacher = !email.includes('@edu'); // True if not edu email
+            var userId = data.register.user.id
+
+            var {data} = await signinExtraMutation({
+                variables: {
+                    id: userId,
+                    data: {
+                        firstName: firstName,
+                        lastName: lastName,
+                        isTeacher: isTeacher,
+                    },
+                },
+            });
+
+            navigate('/login');
+
+          } catch (errors) {
+            setErrors(errors);
+            console.error('Error creating user:', errors);
+            console.error('Error creating user:', error);
+        }
+
     };
 
+
     return (
-        <>
+        <> 
             <div className="flex h-[100vh]">
                 <Card className="ml-auto mr-[auto] mt-[10vh] mb-[15vh] w-[90vw] bg-[#041638] drop-shadow-xl">
                     <CardHeader className="w-[100%] mt-auto">
