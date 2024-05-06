@@ -1,27 +1,16 @@
 import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Avatar, AvatarGroup, AvatarIcon, Button } from "@nextui-org/react";
 import { Link } from "react-router-dom";
 import { getMeetingsFromUserId } from "../hooks/userFetching";
-export default function () {/*
-    var { id } = useParams(); // Extract the ID from URL parameters
-    const location = useLocation();
-    const { loading, error, data } = getMeetingsFromUserId(id)
+export default function () {
+    const { loading, error, data } = getMeetingsFromUserId(localStorage.getItem("userId"))
+
         if (loading) return <p>Loading user...</p>;
         if (error) return <p>Error fetching user: {error.message}</p>;
-*/
-       /* const TableauMeeting = data.map(item => ({
-            meetingId: item.id,
-            name: item.name,
-            date: item.date,
-            subject:  item.subject,
-            
-          }));
-    
-        {this.props.TableauMeeting.map((element, i) => {
-            console.log(element);*/
-            return (
+        
+        const TableauMeeting = data?.usersPermissionsUser?.data?.attributes?.meetings?.data;
 
-            /*)
-        })}*/
+       
+        return (
             <div className="ml-auto mr-[auto] w-[100vw] h-[100hv]">
 
                 <div className="header h-[6vh] mb-[5vh]">
@@ -31,10 +20,12 @@ export default function () {/*
                 </div>
 
                 <div className="overflow-y-scroll overflox-x-hidden h-[90vh] pb-[20vh]">
-                <Card className=" ml-auto mr-[auto] w-[90vw] mt-[2vh]">
-                    <CardHeader className="flex gap-3">
+        
+                    {TableauMeeting?.map((meeting) => (
+                    <Card className=" ml-auto mr-[auto] w-[90vw] mt-[2vh]">
+                    <CardHeader className="flex mt-[1hv]">
                         <div className="relative mr-[1.6rem] ml-[1.3rem] translate-x-[-1.35rem] translate-y-[-1.5rem]">
-                            <Avatar className="absolute translate-x-[0.125rem] translate-y-[0.125rem]" src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
+                            <Avatar className="absolute translate-x-[0.125rem] translate-y-[0.125rem]" src={"http://52.242.29.209:1337" + meeting.attributes.users_permissions_user.data.attributes.picture.data.attributes.url} />
                             <div className="absolute p-[0.15rem] bg-white rounded-full translate-x-[1.8rem] translate-y-[1.5rem]">
                                 <div className="bg-customColor p-[0.7rem] rounded-full">
                                 </div>
@@ -42,23 +33,24 @@ export default function () {/*
 
 
                             <div className=" translate-x-[-0.21rem] translate-y-[-0.21rem] absolute border-customColor border-3 rounded-full p-[1.4rem]"></div>
-                            <p className="absolute rounded-full translate-x-[2.1rem] translate-y-[1.8rem]  text-tiny text-orange-900 font-bold">+5</p>
+                            <p className="absolute rounded-full translate-x-[2.1rem] translate-y-[1.8rem]  text-tiny text-orange-900 font-bold">+{meeting.attributes.users_permissions_users.data.length}</p>
                         </div>
 
 
 
-                        <div className="flex flex-col">
-                            <p className="text-left">Mathematic</p>
-                            <p className="text-left text-small text-default-500">Luc Pierre-au-rein</p>
+                        <div className="flex flex-col ml-3">
+                            <p className="text-left">{meeting.attributes.name}</p>
+                            <p className="text-left text-small text-default-500">{meeting.attributes.users_permissions_user.data.attributes.firstName} {meeting.attributes.users_permissions_user.data.attributes.lastName}</p>
                         </div>
                     </CardHeader>
                     <Divider />
                     <CardBody>
-                        <p>Heure: 3:45 PM - 5:00 PM</p>
-                        <p>Date: 12/08/2024</p>
-                        <p>Lieu: Chez moi</p>
+                        <p>{meeting.attributes.beginningTime.substring(0,5)} - {meeting.attributes.endTime.substring(0,5)}</p>
+                        <p>{meeting.attributes.date}</p>
+                        <p>Lieu: {meeting.attributes.location}</p>
                     </CardBody>
                     <Divider />
+                    {meeting.attributes.isFinished === false &&(
                     <CardFooter>
                     <Link to="/avis" className="w-[50%] mx-[auto]">
                         <Button color="primary" variant="shadow" className="w-[80%] ml-[10%] btnCon" >
@@ -66,31 +58,17 @@ export default function () {/*
                         </Button>
                     </Link>
                     </CardFooter>
+                    )}
                 </Card>
-                <Card className=" ml-auto mr-[auto] w-[90vw] mt-[2vh]">
-                    <CardHeader className="flex gap-3">
-                        <div className="relative mr-[1.6rem] ml-[1.3rem] translate-x-[-1.35rem] translate-y-[-1.5rem]">
-                            <Avatar className="absolute translate-x-[0.125rem] translate-y-[0.125rem]" src="https://i.pravatar.cc/150?u=a042581f4e29026024d" />
-                            <div className="absolute p-[0.15rem] bg-white rounded-full translate-x-[1.8rem] translate-y-[1.5rem]">
-                                <div className="bg-customColor p-[0.7rem] rounded-full">
-                                </div>
-                            </div>
-                            <div className=" translate-x-[-0.21rem] translate-y-[-0.21rem] absolute border-customColor border-3 rounded-full p-[1.4rem]"></div>
-                            <p className="absolute rounded-full translate-x-[2.1rem] translate-y-[1.8rem]  text-tiny text-orange-900 font-bold">+5</p>
-                        </div>
-                        <div className="flex flex-col">
-                            <p className="text-left">Mathematic</p>
-                            <p className="text-left text-small text-default-500">Luc Pierre-au-rein</p>
-                        </div>
-                    </CardHeader>
-                    <Divider />
-                    <CardBody>
-                        <p>3:45 PM - 5:00 PM</p>
-                        <p>12/08/2024</p>
-                        <p>Lieu: Chez moi</p>
-                    </CardBody>
-                    <Divider />
-                </Card>
+                
+                    ))}
+                </div>
+            </div>
+            )
+        /*
+            
+                
+                
                 <Card className=" ml-auto mr-[auto] w-[90vw] mt-[2vh]">
                     <CardHeader className="flex gap-3">
                         <div className="relative mr-[1.6rem] ml-[1.3rem] translate-x-[-1.35rem] translate-y-[-1.5rem]">
@@ -128,6 +106,5 @@ export default function () {/*
                     </CardFooter>
                 </Card>
             </div>
-        </div>
-    )
+        </div>*/
 }
