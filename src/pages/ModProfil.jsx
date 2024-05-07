@@ -6,12 +6,21 @@ import HeroiconsTrashSolid from '~icons/heroicons/trash-solid';
 import { Select, SelectSection, SelectItem } from "@nextui-org/react";
 import { useMutation, useQuery } from '@apollo/client';
 import { UPDATE_MATIERE } from '../hooks/mutations';
+import { useState } from 'react';
+
 
 export default function ModProfil() {
   const { loading: userLoading, error: userError, data: userData } = getUserById('me');
   const userStrengths = userData?.usersPermissionsUser.data.attributes?.strengths.data || [];
   const strengthArray = userStrengths.map(strength => strength.id);
   let userId = localStorage.getItem("userId")
+
+  const [selectedStrengthId, setSelectedStrengthId] = useState(null);
+
+  // Function to handle selection change in the Select component
+  const handleSelectChange = (event) => {
+    setSelectedStrengthId(event.target.value);
+  };
 
   const { loading: matieresLoading, error: matieresError, data: matieresData } = getMatieresFromStrenghtArray(strengthArray);
   var [updateMatiere, { loading, error }] = useMutation(UPDATE_MATIERE);
@@ -52,6 +61,22 @@ export default function ModProfil() {
     })
   };
 
+  const handleAddStrengh = (strengthId) => {
+    var updatedStrengths = strengthArray
+    updatedStrengths.push(strengthId)
+    
+    updateMatiere({
+      variables: {
+        id: userId,
+        data: {
+          strengths: updatedStrengths 
+      }
+      },
+    })
+  };
+
+
+
   return (
     <>
       <div className="h-[10vh] py-[2vh] bg-[#041638]">
@@ -83,6 +108,8 @@ export default function ModProfil() {
                 color="primary"
                 radius="sm"
                 size="lg"
+                onChange={handleSelectChange}
+                value={selectedStrengthId}
               >
               {matieresData?.subjects?.data.map((matiere) => (
                 <SelectItem key={matiere.id} value={matiere.id} color="primary" className='matiere'>
@@ -91,7 +118,7 @@ export default function ModProfil() {
               ))}
 
               </Select>
-              <Button color="primary" variant="shadow" className="w-[7vw] btnSign h-[7vh] ml-[2vw]">
+              <Button color="primary" variant="shadow" className="w-[7vw] btnSign h-[7vh] ml-[2vw]" onClick={() => handleAddStrengh(selectedStrengthId)} type='submit'>
                 Ajouter
               </Button>
             </div>
