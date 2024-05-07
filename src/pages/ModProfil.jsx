@@ -7,10 +7,11 @@ import { Select, SelectSection, SelectItem } from "@nextui-org/react";
 import { UPDATE_MATIERE } from '../hooks/mutations';
 import { useMutation } from '@apollo/client';
 
+
 //const [updateMatiereMutation, {}] = useMutation(UPDATE_MATIERE);
 export default function () {
-  const { loading, error, data } = getUserById('me')
-
+  var { loading, error, data } = getUserById('me')
+  var [updateMatiere] = useMutation(UPDATE_MATIERE);
 
   if (loading) return <p>Loading user...</p>;
   if (error) return <p>Error fetching user: {error.message}</p>;
@@ -28,7 +29,7 @@ export default function () {
   if (user.isTeacher) {
     userType = "Enseignant"
   }
-
+  
 
   const handleRemoveStrength = async (strengthId) => {
     // 1. Filter out the strength to be removed from user strengths

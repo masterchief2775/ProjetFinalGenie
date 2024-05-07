@@ -124,3 +124,16 @@ export const UPDATE_MATIERE = gql`
     }
   }
 `;
+
+export const GET_MATIERES_DISPO = gql`
+query GetAvailableSubjects($strengths: [ID!]) {
+  subjects(filters: { not: { id: { in: $strengths } } }) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+}
+`;
