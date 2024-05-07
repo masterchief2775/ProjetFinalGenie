@@ -10,6 +10,7 @@ const GET_USER_BY_ID = gql`
           email
           isTeacher
           reviewAvg
+          bankedTime
           picture {
             data {
               attributes {

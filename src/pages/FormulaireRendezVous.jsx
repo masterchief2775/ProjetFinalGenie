@@ -1,6 +1,5 @@
-import { Card, CardHeader, CardBody, CardFooter, Button, Input, DatePicker } from "@nextui-org/react";
+import { Card, CardHeader, CardBody, CardFooter, Button, Input, DatePicker, TimeInput } from "@nextui-org/react";
 import { Link, useNavigate } from 'react-router-dom'
-import { TimeInput } from "@nextui-org/react";
 import { Time } from "@internationalized/date";
 import { Select, SelectSection, SelectItem } from "@nextui-org/react";
 import { CREATE_MEETING } from '../hooks/mutations';
@@ -31,34 +30,22 @@ export default function () {
         //if (!validateForm()) return; // Don't submit if validation fails
 
         try {
-            console.log(name)
-            console.log(location)
-            console.log(beginningTime)
-            console.log(endTime)
-            console.log(subject)
-            console.log(localStorage.getItem("userId"))
-            console.log(date)
             const { data } = await meetingMutation({
                 variables: {
                     data: {
                         name: name,
                         location: location,
-                        beginningTime: beginningTime,
-                        endTime: endTime,
-                        subject: subject,
-                        users_permissions_user: localStorage.getItem("userId"),
-                        date: date
+                        beginningTime: beginningTime.toString(),
+                        endTime: endTime.toString(),
+                        subject: subject.target.value.slice(2),
+                        users_permissions_user: 2,
+                        users_permissions_users: localStorage.getItem("userId"),
+                        date: date.toString(),
+                        publishedAt: new Date(),
                     },
                 },
             });
             console.log(data)
-            //If everything ok save jwt & other constant info
-            const token = data.login.jwt;
-            const userId = data.login.user.id;
-            console.log(userId)
-            localStorage.setItem('jwtToken', token);
-            localStorage.setItem('userId', userId);
-
             navigate('/');
 
         } catch (errors) {
@@ -113,16 +100,12 @@ export default function () {
                             onChange={setDate}
 
                         />
-                        <TimeInput label="Heure Début" className="w-[98%] ml-auto mr-[auto] mb-[5%]" defaultValue={new Time(11, 45)} radius="sm" color="primary" size="lg"
+                        <TimeInput label="Heure Début" className="w-[98%] ml-auto mr-[auto] mb-[5%]" radius="sm" color="primary" size="lg"
                             isRequired
-                            isInvalid={errors.beginningTime != null}
-                            errorMessage={errors.beginningTime}
-                            onChange={(e) => setBeginningTime(e.target.value)} />
-                        <TimeInput label="Heure Fin" className="w-[98%] ml-auto mr-[auto] mb-[5%]" defaultValue={new Time(11, 45)} radius="sm" color="primary" size="lg"
+                            onChange={setBeginningTime} />
+                        <TimeInput label="Heure Fin" className="w-[98%] ml-auto mr-[auto] mb-[5%]" radius="sm" color="primary" size="lg"
                             isRequired
-                            isInvalid={errors.endTime != null}
-                            errorMessage={errors.endTime}
-                            onChange={(e) => setEndTime(e.target.value)} />
+                            onChange={setEndTime} />
                         <Select
                             label="Matière"
                             placeholder="Choisir une matière"
@@ -135,15 +118,15 @@ export default function () {
                             value={subject}
                             isInvalid={errors.subject != null}
                             errorMessage={errors.subject}
-                            onChange={(e) => setSubject(e.target.value)}
+                            onChange={setSubject}
                         >
-                            <SelectItem key={0} value={"matiere0"} color="primary" className='matiere'>
+                            <SelectItem value="0" name={"Math"} color="primary" className='matiere'>
                                 Math
                             </SelectItem>
-                            <SelectItem key={1} value={"matiere1"} color="primary" className='matiere'>
+                            <SelectItem value="1" name={"Francais"} color="primary" className='matiere'>
                                 Francais
                             </SelectItem>
-                            <SelectItem key={2} value={"matiere2"} color="primary" className='matiere'>
+                            <SelectItem value="2" name={"Anglais"} color="primary" className='matiere'>
                                 Anglais
                             </SelectItem>
                         </Select>

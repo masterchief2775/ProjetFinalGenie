@@ -2,10 +2,62 @@ import { Button, Input, Radio, Table, TableHeader, TableColumn, TableBody, Table
 
 import HeroiconsMagnifyingGlass16Solid from '~icons/heroicons/magnifying-glass-16-solid'
 import { Link } from 'react-router-dom'
+import { getUserById } from "../hooks/userFetching";
+import { useEffect, useState } from "react";
 
 export default function () {
-    let heureBanque = "100h"
 
+    const { loading, error, data } = getUserById('me')
+    const [searchName, setSearchName] = useState('')
+    const [currentChanging, setCurrentChanging] = useState('')
+    const [searchBarValue, setSearchBarValue] = useState('')
+    const [searchSubject, setSearchSubject] = useState('')
+
+    useEffect(() => {
+        if (currentChanging) {
+            if (currentChanging.target.ariaLabel == "Nom") {
+                if(searchBarValue?.target?.value) {
+                    setSearchName('')
+                } else {
+                    setSearchName(searchBarValue.target.value)
+                }
+                
+            } else {
+                if(searchBarValue?.target?.value) {
+                    setSearchSubject('')
+                } else {
+                    setSearchSubject(searchBarValue.target.value)
+                }
+
+            }
+            console.log("searchSubject: " + searchSubject)
+            console.log("searchName: " + searchName)
+        }
+
+    }, [searchBarValue]);
+
+    useEffect(() => {
+        if (currentChanging) {
+            if (currentChanging.target.ariaLabel == "Nom") {
+                console.log("searchName : " + searchName)
+                if (searchName != null) {
+                setSearchBarValue(searchName)
+            }
+            } else {
+                if (searchSubject != null) {
+                    setSearchBarValue(searchSubject)
+                }
+
+            }
+        }
+
+    }, [currentChanging]); 
+
+    if (loading) return <p>Loading user...</p>;
+    if (error) return <p>Error fetching user: {error.message}</p>;
+
+    console.log(data)
+    let heureBanque = data.usersPermissionsUser.data.attributes.bankedTime + "h"
     return (
         <>
             <div className="h-[100vh] w-[100wh] ">
@@ -25,6 +77,8 @@ export default function () {
                             size="lg"
                             placeholder="Entrez votre recherche"
                             className="w-[69vw] h-[8vh]"
+                            value={searchBarValue?.target?.value}
+                            onChange={setSearchBarValue}
                         />
                         <Button className="w-[5vw] m-[auto] mt-[0.5vh] bg-primary-600">
                             <HeroiconsMagnifyingGlass16Solid className="w-7 h-7 mb-.5 text-primary-900 dark:text-gray-400 group-hover:text-primary-700 dark:group-hover:text-blue-500" />
@@ -44,7 +98,7 @@ export default function () {
                     >
                         <TableHeader>
                             <TableColumn>Nom</TableColumn>
-                            <TableColumn>Maitères</TableColumn>
+                            <TableColumn>Matières</TableColumn>
                         </TableHeader>
                         <TableBody >
                             <TableRow key="1">
@@ -104,16 +158,14 @@ export default function () {
                         classNames={{
                             label: "text-gray-100"
                         }}
-                        defaultValue="nom"
-                    >
+                        onChange={setCurrentChanging}
+                        >
                         <Radio
                             value="nom"
                             className="w-[50wv] ml-[auto] mr-auto"
                             classNames={{
                                 label: "text-gray-100"
-                            }}
-                            
-                        >
+                            }}>
                             Nom
                         </Radio>
                         <Radio
@@ -121,9 +173,7 @@ export default function () {
                             className="w-[50wv] ml-[auto] mr-auto"
                             classNames={{
                                 label: "text-gray-100"
-                            }}
-                            
-                        >
+                            }}>
                             Matière
                         </Radio>
                     </RadioGroup>
