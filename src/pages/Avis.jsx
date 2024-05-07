@@ -1,15 +1,16 @@
-import { Card, CardHeader, CardBody, CardFooter, Divider, Image, Avatar, AvatarGroup, AvatarIcon } from "@nextui-org/react";
-import { Link } from 'react-router-dom'
+import { Card, CardHeader, CardBody, CardFooter, Divider, Button, Avatar, AvatarGroup, AvatarIcon } from "@nextui-org/react";
+import { Link, useNavigate } from 'react-router-dom'
+import {getNotifReviewFromUserId } from "../hooks/userFetching";
 
 export default function() {
-    
-    let userName = "Franky";
-    let userMatiere = "Math, logique";
-    let userPP = "https://i.pravatar.cc/150?u=a042581f4e29026024d"
-    let nbrEval = "+2"
-    let infoRencontre1 = "12/08/2024 3:45 PM"
-    let infoRencontre2 = "29/07/2024 11:00 AM"
+    const navigate = useNavigate();
+    let userId = localStorage.getItem("userId")
+    var { loading, error, data } = getNotifReviewFromUserId(userId);
 
+    if (loading) return <p>Loading user...</p>;
+    if (error) return <p>Error fetching user: {error.message}</p>;
+
+    var TableauNotifAvis = data?.notifReviews?.data;
     return (
         <>
         
@@ -18,12 +19,14 @@ export default function() {
                     <h1 className="text-center text-primary-500 text-4xl font-bold titre" >Avis</h1>
                 </div>
                 <div className="h-auto mt-[12vh] mb-[30vh]">
+                {TableauNotifAvis && TableauNotifAvis.length > 0 ? (
+                TableauNotifAvis?.map((notifAvis) => (
                     <Card className=" ml-auto mr-[auto] w-[95vw] mt-[2vh] overflow-y: auto;">
                         <CardHeader className="flex gap-3">
 
                             <div className="relative mr-[1.6rem] ml-[1.3rem] translate-x-[-1.35rem] translate-y-[-1.5rem]">
 
-                                <Avatar className="absolute translate-x-[0.125rem] translate-y-[0.125rem]" src={userPP} />
+                                <Avatar className="absolute translate-x-[0.125rem] translate-y-[0.125rem]" src={notifAvis.attributes.users_permissions_revieweds.data[0].attributes?.picture?.data?.attributes?.url != undefined ? "http://52.242.29.209:1337" + notifAvis.attributes.users_permissions_revieweds.data[0].attributes.picture.data.attributes?.url : ""} />
 
                                 <div className="absolute p-[0.15rem] bg-white rounded-full translate-x-[1.8rem] translate-y-[1.5rem]">
                                     <div className="bg-customColor p-[0.7rem] rounded-full">
@@ -31,144 +34,29 @@ export default function() {
                                 </div>
 
                                 <div className=" translate-x-[-0.21rem] translate-y-[-0.21rem] absolute border-customColor border-3 rounded-full p-[1.4rem]"></div>
-                                <p className="absolute rounded-full translate-x-[2.1rem] translate-y-[1.8rem] text-tiny text-orange-900 font-bold">{nbrEval}</p>
+                                <p className="absolute rounded-full translate-x-[2.1rem] translate-y-[1.8rem] text-tiny text-orange-900 font-bold"></p>
                             </div>
 
                             <div className="flex flex-col">
-                                <p className="text-left">{userName}</p>
-                                <p className="text-left text-small text-default-500">{userMatiere}</p>
+                            <p className="text-left">{notifAvis.attributes.users_permissions_revieweds.data[0].attributes?.firstName + " " + notifAvis.attributes.users_permissions_revieweds.data[0].attributes?.lastName}</p>
+                            <p className="text-left text-small text-default-500">{notifAvis.attributes.meetingID.data.attributes.name}</p>
                             </div>
-
                         </CardHeader>
                         <Divider />
-                        <CardBody>
-                            <Link to="/formulaireAvis">
-                            <a>{infoRencontre1}</a>
-                            </Link>
-                            <a>{infoRencontre2}</a>
+                        <CardBody >
+                            <div className="flex">
+                                <p className="my-auto">{notifAvis.attributes.meetingID.data.attributes.date} {notifAvis.attributes.meetingID.data.attributes.beginningTime}</p>
+                                <Link to={"/FormulaireAvis/" + notifAvis.id}>
+                                    <Button color="primary" value={notifAvis.id} variant="shadow" className="w-[30vw] btnEnvoyer ml-[5vw]">
+                                        Évaluer
+                                    </Button>
+                                </Link>
+                            </div>
                         </CardBody>
                     </Card>
-                    <Card className=" ml-auto mr-[auto] w-[95vw] mt-[2vh] overflow-y: auto;">
-                        <CardHeader className="flex gap-3">
-
-                            <div className="relative mr-[1.6rem] ml-[1.3rem] translate-x-[-1.35rem] translate-y-[-1.5rem]">
-
-                                <Avatar className="absolute translate-x-[0.125rem] translate-y-[0.125rem]" src={userPP} />
-
-                                <div className="absolute p-[0.15rem] bg-white rounded-full translate-x-[1.8rem] translate-y-[1.5rem]">
-                                    <div className="bg-customColor p-[0.7rem] rounded-full">
-                                    </div>
-                                </div>
-
-                                <div className=" translate-x-[-0.21rem] translate-y-[-0.21rem] absolute border-customColor border-3 rounded-full p-[1.4rem]"></div>
-                                <p className="absolute rounded-full translate-x-[2.1rem] translate-y-[1.8rem] text-tiny text-orange-900 font-bold">{nbrEval}</p>
-                            </div>
-
-                            <div className="flex flex-col">
-                                <p className="text-left">{userName}</p>
-                                <p className="text-left text-small text-default-500">{userMatiere}</p>
-                            </div>
-
-                        </CardHeader>
-                        <Divider />
-                        <CardBody>
-                            <Link to="/formulaireAvis">
-                            <a>{infoRencontre1}</a>
-                            </Link>
-                            <a>{infoRencontre2}</a>
-                        </CardBody>
-                    </Card>
-                    <Card className=" ml-auto mr-[auto] w-[95vw] mt-[2vh] overflow-y: auto;">
-                        <CardHeader className="flex gap-3">
-
-                            <div className="relative mr-[1.6rem] ml-[1.3rem] translate-x-[-1.35rem] translate-y-[-1.5rem]">
-
-                                <Avatar className="absolute translate-x-[0.125rem] translate-y-[0.125rem]" src={userPP} />
-
-                                <div className="absolute p-[0.15rem] bg-white rounded-full translate-x-[1.8rem] translate-y-[1.5rem]">
-                                    <div className="bg-customColor p-[0.7rem] rounded-full">
-                                    </div>
-                                </div>
-
-                                <div className=" translate-x-[-0.21rem] translate-y-[-0.21rem] absolute border-customColor border-3 rounded-full p-[1.4rem]"></div>
-                                <p className="absolute rounded-full translate-x-[2.1rem] translate-y-[1.8rem] text-tiny text-orange-900 font-bold">{nbrEval}</p>
-                            </div>
-
-                            <div className="flex flex-col">
-                                <p className="text-left">{userName}</p>
-                                <p className="text-left text-small text-default-500">{userMatiere}</p>
-                            </div>
-
-                        </CardHeader>
-                        <Divider />
-                        <CardBody>
-                            <Link to="/formulaireAvis">
-                            <a>{infoRencontre1}</a>
-                            </Link>
-                            <a>{infoRencontre2}</a>
-                        </CardBody>
-                    </Card>
-                    <Card className=" ml-auto mr-[auto] w-[95vw] mt-[2vh] overflow-y: auto;">
-                        <CardHeader className="flex gap-3">
-
-                            <div className="relative mr-[1.6rem] ml-[1.3rem] translate-x-[-1.35rem] translate-y-[-1.5rem]">
-
-                                <Avatar className="absolute translate-x-[0.125rem] translate-y-[0.125rem]" src={userPP} />
-
-                                <div className="absolute p-[0.15rem] bg-white rounded-full translate-x-[1.8rem] translate-y-[1.5rem]">
-                                    <div className="bg-customColor p-[0.7rem] rounded-full">
-                                    </div>
-                                </div>
-
-                                <div className=" translate-x-[-0.21rem] translate-y-[-0.21rem] absolute border-customColor border-3 rounded-full p-[1.4rem]"></div>
-                                <p className="absolute rounded-full translate-x-[2.1rem] translate-y-[1.8rem] text-tiny text-orange-900 font-bold">{nbrEval}</p>
-                            </div>
-
-                            <div className="flex flex-col">
-                                <p className="text-left">{userName}</p>
-                                <p className="text-left text-small text-default-500">{userMatiere}</p>
-                            </div>
-
-                        </CardHeader>
-                        <Divider />
-                        <CardBody>
-                            <Link to="/formulaireAvis">
-                            <a>{infoRencontre1}</a>
-                            </Link>
-                            <a>{infoRencontre2}</a>
-                        </CardBody>
-                    </Card>
-                    
-                    <Card className=" ml-auto mr-[auto] w-[95vw] mt-[2vh] overflow-y: auto;">
-                        <CardHeader className="flex gap-3">
-
-                            <div className="relative mr-[1.6rem] ml-[1.3rem] translate-x-[-1.35rem] translate-y-[-1.5rem]">
-
-                                <Avatar className="absolute translate-x-[0.125rem] translate-y-[0.125rem]" src={userPP} />
-
-                                <div className="absolute p-[0.15rem] bg-white rounded-full translate-x-[1.8rem] translate-y-[1.5rem]">
-                                    <div className="bg-customColor p-[0.7rem] rounded-full">
-                                    </div>
-                                </div>
-
-                                <div className=" translate-x-[-0.21rem] translate-y-[-0.21rem] absolute border-customColor border-3 rounded-full p-[1.4rem]"></div>
-                                <p className="absolute rounded-full translate-x-[2.1rem] translate-y-[1.8rem] text-tiny text-orange-900 font-bold">{nbrEval}</p>
-                            </div>
-
-                            <div className="flex flex-col">
-                                <p className="text-left">{userName}</p>
-                                <p className="text-left text-small text-default-500">{userMatiere}</p>
-                            </div>
-
-                        </CardHeader>
-                        <Divider />
-                        <CardBody>
-                            <Link to="/formulaireAvis">
-                            <a>{infoRencontre1}</a>
-                            </Link>
-                            <a>{infoRencontre2}</a>
-                        </CardBody>
-                    </Card>
+                ))):(
+                    <div className="text-center text-primary-200 text-4xl font-bold mt-[20vh]">Aucune notification d'avis disponible.</div>
+                )}
                 </div>
             </div>
         </>

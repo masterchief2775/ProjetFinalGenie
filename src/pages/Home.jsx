@@ -13,7 +13,8 @@ export default function Accueil() {
 
     if (loading) return <p>Loading user...</p>;
     if (error) return <p>Error fetching user: {error.message}</p>;
-    console.log(data)
+
+   
 
     var TableauMeetingFromUser = data?.usersPermissionsUser?.data?.attributes?.meetings?.data;
     var TableauMeetingFromTuteur = data?.meetings?.data;
@@ -29,7 +30,9 @@ export default function Accueil() {
                 variables: {
                     data: {
                         users_permissions_reviewer: reviewerId,
-                        users_permissions_revieweds: [reviewedId]
+                        users_permissions_revieweds: [reviewedId],
+                        meetingID: meetingId,
+                        publishedAt: new Date()
                     }
                 }
             });

@@ -38,7 +38,7 @@ function App() {
               <Route path="/profile/me" element={<Profile />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signin" element={<Signin />} />
-              <Route path="/formulaireAvis" element={<FormulaireAvis />} />
+              <Route path="/formulaireAvis/:id" element={<FormulaireAvis />} />
               <Route path="/formulaireRendezVous" element={<FormulaireRendezVous />} />
               <Route path="/formulaireRendezVousGroupe" element={<FormulaireRendezVousGroupe />} />
               <Route path="/modProfile" element={<ModProfile />} />
