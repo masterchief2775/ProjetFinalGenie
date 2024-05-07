@@ -74,7 +74,7 @@ mutation joinMeeting($data: MeetingEntityResponse!) {
 `;
 
 export const CREATE_NOTIFREVIEW = gql`
-  mutation CreateNotifReview($data:  NotifReviewEntityResponse!) {
+  mutation CreateNotifReview($data:  NotifReviewInput!) {
     createNotifReview(data: $data) {
       data {
           id
@@ -84,7 +84,7 @@ export const CREATE_NOTIFREVIEW = gql`
 `;
 
 export const UPDATE_MEETING_STATUS = gql`
-mutation UpdateMeetingStatus ($id: ID!, $data:  MeetingEntityResponse!) {
+mutation UpdateMeetingStatus ($id: ID!, $data:   MeetingInput!) {
   updateMeeting(id: $id, data: $data) {
    data{
      id
