@@ -127,20 +127,17 @@ export const CREATE_MATIERE = gql`
 `;
 
 export const UPDATE_MATIERE = gql`
-  mutation CreateMatiere($id: ID!, $strengths: [ID!]) {
-    updateUsersPermissionsUser(id: $id, data: {strengths: $strengths}) {
-      data {
-        id
-        attributes {  # Add the user to the relationship field
-          strengths {
-            data {
-              attributes {
-                name
-              }
-            }
+mutation UpdateMatiere($id: ID!, $data:  UsersPermissionsUserInput! ) {
+  updateUsersPermissionsUser(id: $id, data: $data) {
+    data {
+      attributes { 
+        strengths{
+          data{
+            id
           }
         }
+        }
       }
-    }
   }
+}
 `;

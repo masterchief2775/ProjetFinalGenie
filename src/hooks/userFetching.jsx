@@ -19,6 +19,7 @@ const GET_USER_BY_ID = gql`
           }
           strengths {
             data {
+              id
               attributes {
                 name
                 color
@@ -218,6 +219,28 @@ export const getReviewNotifFromUserId =  (id) => {
 
   const { loading, error, data } = useQuery(GET_REVIEWNOTIF_FROM_USER, {
     variables: { userId: id },
+  });
+  return { loading, error, data }
+};
+
+
+export const GET_MATIERES_DISPO = gql`
+query GetAvailableSubjects($strengths: [ID!]) {
+  subjects(filters: { not: { id: { in: $strengths } } }) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+}
+`;
+
+export const getMatieresFromStrenghtArray = (_strengths) => {
+
+  const { loading, error, data } = useQuery(GET_MATIERES_DISPO, {
+    variables: { strengths: _strengths },
   });
   return { loading, error, data }
 };

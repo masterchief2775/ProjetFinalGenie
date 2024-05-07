@@ -1,53 +1,55 @@
 import { Link } from 'react-router-dom'
 import { Avatar, Chip, Button, Divider, Calendar, Input, Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { useParams } from 'react-router-dom'
-import { getUserById } from '../hooks/userFetching';
+import { getUserById, getMatieresFromStrenghtArray } from '../hooks/userFetching';
 import HeroiconsTrashSolid from '~icons/heroicons/trash-solid';
 import { Select, SelectSection, SelectItem } from "@nextui-org/react";
+import { useMutation, useQuery } from '@apollo/client';
 import { UPDATE_MATIERE } from '../hooks/mutations';
-import { useMutation } from '@apollo/client';
 
-//const [updateMatiereMutation, {}] = useMutation(UPDATE_MATIERE);
-export default function () {
-  const { loading, error, data } = getUserById('me')
+export default function ModProfil() {
+  const { loading: userLoading, error: userError, data: userData } = getUserById('me');
+  const userStrengths = userData?.usersPermissionsUser.data.attributes?.strengths.data || [];
+  const strengthArray = userStrengths.map(strength => strength.id);
+  let userId = localStorage.getItem("userId")
 
+  const { loading: matieresLoading, error: matieresError, data: matieresData } = getMatieresFromStrenghtArray(strengthArray);
+  var [updateMatiere, { loading, error }] = useMutation(UPDATE_MATIERE);
 
-  if (loading) return <p>Loading user...</p>;
-  if (error) return <p>Error fetching user: {error.message}</p>;
+  if (userLoading || matieresLoading) return <p>Loading user...</p>;
+  if (userError || matieresError) return <p>Error fetching user: {userError ? userError.message : matieresError.message}</p>;
 
-  const user = data?.usersPermissionsUser?.data?.attributes;
-  let userColor = "primary"
-  let userImage = ""
-  if (user.picture.data?.attributes?.url) {
-    userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url
+  const user = userData?.usersPermissionsUser?.data?.attributes;
+  const userColor = "primary";
+  let userImage = "";
+  if (user.picture?.data?.attributes?.url) {
+    userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url;
   }
-  let userName = user.firstName + " " + user.lastName
-  let userEmail = user.email
-  let userApp = user.reviewAvg + "☆"
-  let userType = "Étudiant"
+  let userType = "";
   if (user.isTeacher) {
-    userType = "Enseignant"
+    userType = "Enseignant";
   }
+  console.log(matieresData)
 
-
-  const handleRemoveStrength = async (strengthId) => {
-    // 1. Filter out the strength to be removed from user strengths
-    const updatedStrengths = user.strengths.data.filter(strength => strength.id !== strengthId);
-    const userToUpdate = {
-      id: user.id,
-      data: {
-        strengths: updatedStrengths.map(strength => strength.id),
-      },
-    };
-
-    // 2. Call UPDATE_MATIERE mutation to update user data
-    try {
-      const { data } = await UPDATE_MATIERE({ variables: userToUpdate });
-      console.log("Strength removed successfully:", data);
-      // Update UI to reflect the change (optional)
-    } catch (error) {
-      console.error("Error removing strength:", error);
+  const handleRemoveStrength = (strengthId) => {
+    var updatedStrengths = strengthArray
+    //updatedStrengths.splice(strengthId, 1)
+    const indexToRemove = updatedStrengths.indexOf(strengthId);
+    if (indexToRemove !== -1) {
+      // Remove the element at the found index
+      updatedStrengths.splice(indexToRemove, 1);
     }
+    console.log("Updated strenghts : " + updatedStrengths)
+    //console.log("User ID: " + userId)
+    
+    updateMatiere({
+      variables: {
+        id: userId,
+        data: {
+          strengths: updatedStrengths 
+      }
+      },
+    })
   };
 
   return (
@@ -82,11 +84,12 @@ export default function () {
                 radius="sm"
                 size="lg"
               >
-                {user.strengths?.data?.map((strength) => (
-                  <SelectItem key={strength.id} value={strength.id} color="primary" className='matiere'>
-                    {strength.attributes.name}
-                  </SelectItem>
-                ))}
+              {matieresData?.subjects?.data.map((matiere) => (
+                <SelectItem key={matiere.id} value={matiere.id} color="primary" className='matiere'>
+                  {matiere.attributes.name}
+                </SelectItem>
+              ))}
+
               </Select>
               <Button color="primary" variant="shadow" className="w-[7vw] btnSign h-[7vh] ml-[2vw]">
                 Ajouter
