@@ -73,6 +73,28 @@ mutation joinMeeting($data: MeetingEntityResponse!) {
 }
 `;
 
+export const CREATE_NOTIFREVIEW = gql`
+  mutation CreateNotifReview($data:  NotifReviewInput!) {
+    createNotifReview(data: $data) {
+      data {
+          id
+        }	
+      }
+    }
+`;
+
+export const UPDATE_MEETING_STATUS = gql`
+mutation UpdateMeetingStatus ($id: ID!, $data:   MeetingInput!) {
+  updateMeeting(id: $id, data: $data) {
+   data{
+     id
+     attributes{
+       isFinished
+     }
+   }
+ }
+}
+`;
 
 export const DELETE_NOTIFREVIEW = gql`
 mutation deleteNotifReview ($id: NotifReviewEntityResponse) {
@@ -83,8 +105,6 @@ mutation deleteNotifReview ($id: NotifReviewEntityResponse) {
   }
 }
 `;
-
-/*IL FAUT AVOIR DES PERMITIONS APPAREMENT*/
 
 export const CREATE_REVIEW = gql`
   mutation CreateReview($data: ReviewEntityResponse!) {
