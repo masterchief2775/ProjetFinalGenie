@@ -74,7 +74,7 @@ export const useGetSelf = () => {
 };
 
 const GET_MEETINGS_FROM_USER = gql`
-query GetMeetingsFromUserId($userId: ID!) {
+query GetMeetingsFromUserId($userId : ID!) {
   usersPermissionsUser(id: $userId) {
     data {
       attributes {
@@ -91,6 +91,7 @@ query GetMeetingsFromUserId($userId: ID!) {
               endTime
               users_permissions_user {
                 data {
+                  id
                   attributes {
                     firstName
                     lastName
@@ -115,7 +116,44 @@ query GetMeetingsFromUserId($userId: ID!) {
       }
     }
   }
-}
+  meetings(filters: {
+    users_permissions_user: {id: {eq: $userId}}
+  }){
+      data {
+        id
+        attributes {
+          isFinished
+          name
+          location
+          date
+          subject
+          beginningTime
+          endTime
+          users_permissions_user {
+            data {
+              id
+              attributes {
+                firstName
+                lastName
+                picture {
+                  data {
+                    attributes {
+                      url
+                    }
+                  }
+                }
+              }
+            }
+          }
+          users_permissions_users {
+            data {
+              id
+            }
+          }
+        }
+      }
+    }
+  }
 `;
 
 // count les id des users (c un array) et user, c'est le createur
@@ -161,7 +199,6 @@ query GetUsersByStrenght($strName: String!) {
     }
   }
 }
-
 `;
 
 // join FirstName et lastName pis check localement
@@ -203,7 +240,7 @@ export function getUserByNameAndStrength(firstName, lastName, strength) {
 const GET_REVIEW_NOTIF_FROM_USER = gql`
 CODE POUR GET LES NOTIFS DES REVIEWS
 `;*/
-/*
+
 // count les id des users (c un array) et user, c'est le createur
 export const getReviewNotifFromUserId =  (id) => {
 
@@ -211,4 +248,4 @@ export const getReviewNotifFromUserId =  (id) => {
     variables: { userId: id },
   });
   return { loading, error, data }
-};*/
+};

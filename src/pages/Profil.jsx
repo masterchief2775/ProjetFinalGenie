@@ -61,10 +61,22 @@ export default function () {
           </div>
           <div className='w-[60vw] h-[20vw]'>
             <Divider className="dividerProfil ml-[1vw] w-[75vw] my-2"></Divider>
-            <div className="pl-[3vw] pt-[1vw] flex-warp justify-start">
-              <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow"> {userType} </Chip>
-              <Chip className="mb-2 mr-2" size="sm" radius="sm" variant="shadow" color="primary">Math</Chip>
-            </div>
+            <div className="pl-[3vw] pt-[1vw] flex-wrap justify-start">
+      {user.strengths?.data?.map((strength) => (
+        <Chip
+          key={strength.id}
+          className="mb-2 mr-2"
+          size="sm"
+          radius="sm"
+          variant="shadow"
+          color="primary"
+        >
+          {strength.attributes.name}
+        </Chip>
+      ))}
+
+
+    </div>
           </div>
         </CardBody>
         <CardFooter>

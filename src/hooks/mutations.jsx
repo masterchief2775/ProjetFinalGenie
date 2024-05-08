@@ -59,7 +59,9 @@ export const CREATE_MEETING = gql`
     }
 `;
 
-/*DATA DOIS AVOIR UNE LISTE D'ID DES PERSONNE DÉJÀ DANS LE GROUPE + LA NOUVELLE*/
+
+/*DATA DOIS AVOIR UNE LIISTE D'ID DES PERSONNE DÉJÀ DANS LE GROUPE + LA NOUVELLE*/
+
 export const JOIN_MEETING = gql`
 mutation joinMeeting($data: MeetingEntityResponse!) {
   updateMeeting(data: $data) {
@@ -70,7 +72,29 @@ mutation joinMeeting($data: MeetingEntityResponse!) {
 }
 `;
 
-/*
+export const CREATE_NOTIFREVIEW = gql`
+  mutation CreateNotifReview($data:  NotifReviewInput!) {
+    createNotifReview(data: $data) {
+      data {
+          id
+        }	
+      }
+    }
+`;
+
+export const UPDATE_MEETING_STATUS = gql`
+mutation UpdateMeetingStatus ($id: ID!, $data:   MeetingInput!) {
+  updateMeeting(id: $id, data: $data) {
+   data{
+     id
+     attributes{
+       isFinished
+     }
+   }
+ }
+}
+`;
+
 export const DELETE_NOTIFREVIEW = gql`
 mutation deleteNotifReview ($id: NotifReviewEntityResponse) {
   deleteNotifReview(id: $id){
@@ -79,9 +103,7 @@ mutation deleteNotifReview ($id: NotifReviewEntityResponse) {
     }
   }
 }
-`;*/
-
-/*IL FAUT AVOIR DES PERMITIONS APPAREMENT*/
+`;
 
 export const CREATE_REVIEW = gql`
   mutation CreateReview($data: ReviewEntityResponse!) {
@@ -91,4 +113,46 @@ export const CREATE_REVIEW = gql`
         }	
       }
     }
+`;
+
+export const CREATE_MATIERE = gql`
+  mutation CreateMatiere($data: SubjectEntityResponse!) {
+    createSubject(data: $data) {
+      data {
+          id
+        }	
+      }
+    }
+`;
+
+export const UPDATE_MATIERE = gql`
+  mutation CreateMatiere($id: ID!, $strengths: [ID!]) {
+    updateUsersPermissionsUser(id: $id, data: {strengths: $strengths}) {
+      data {
+        id
+        attributes {  # Add the user to the relationship field
+          strengths {
+            data {
+              attributes {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+export const GET_MATIERES_DISPO = gql`
+query GetAvailableSubjects($strengths: [ID!]) {
+  subjects(filters: { not: { id: { in: $strengths } } }) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
+  }
+}
 `;
