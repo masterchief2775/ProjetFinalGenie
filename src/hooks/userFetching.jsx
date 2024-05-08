@@ -87,7 +87,13 @@ query GetMeetingsFromUserId($userId : ID!) {
               name
               location
               date
-              subject
+              subject{
+                data{
+                  attributes{
+                    name
+                  }
+                }
+              }
               beginningTime
               endTime
               users_permissions_user {
@@ -127,7 +133,13 @@ query GetMeetingsFromUserId($userId : ID!) {
           name
           location
           date
-          subject
+          subject{
+                data{
+                  attributes{
+                    name
+                  }
+                }
+              }
           beginningTime
           endTime
           users_permissions_user {
@@ -162,6 +174,90 @@ export const getMeetingsFromUserId = (id) => {
 
   const { loading, error, data } = useQuery(GET_MEETINGS_FROM_USER, {
     variables: { userId: id },
+  });
+  return { loading, error, data }
+};
+
+const GET_NOTIFREVIEW_FROM_USER = gql`
+query GetNotifReviewFromUserId ($userId : ID!) {
+  notifReviews(filters :{
+   users_permissions_reviewer: {id: {eq: $userId}}
+   }){
+     data{
+      id
+       attributes{
+         users_permissions_revieweds{
+           data{
+             id
+             attributes{
+               firstName
+               lastName
+               picture {
+                 data {
+                   attributes {
+                     url
+                 }
+               }
+              }
+             }
+           }
+         }
+         meetingID{
+           data{
+             id
+             attributes{
+               date
+               beginningTime
+               name
+             }
+           }
+         }
+       }
+     }
+   }
+ }
+`;
+
+export const getNotifReviewFromUserId = (id) => {
+
+  const { loading, error, data } = useQuery(GET_NOTIFREVIEW_FROM_USER, {
+    variables: { userId: id },
+  });
+  return { loading, error, data }
+};
+
+const GET_NOTIFREVIEW_FROM_ID = gql`
+query GetNotifReviewFromId ($id :ID!) {
+  notifReview(id: $id){
+    data{
+       attributes{
+         users_permissions_revieweds{
+           data{
+             id
+             attributes{
+               firstName
+               lastName
+             }
+           }
+         }
+         meetingID{
+           data{
+             id
+             attributes{
+               name
+             }
+           }
+         }
+       }
+     }
+   }
+ }
+`;
+
+export const getNotifReviewFromId = (idNotif) => {
+
+  const { loading, error, data } = useQuery(GET_NOTIFREVIEW_FROM_ID, {
+    variables: { id: idNotif },
   });
   return { loading, error, data }
 };
