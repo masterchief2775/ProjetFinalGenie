@@ -96,7 +96,7 @@ mutation UpdateMeetingStatus ($id: ID!, $data:   MeetingInput!) {
 `;
 
 export const DELETE_NOTIFREVIEW = gql`
-mutation deleteNotifReview ($id: NotifReviewEntityResponse) {
+mutation deleteNotifReview ($id: ID!) {
   deleteNotifReview(id: $id){
     data{
       id
@@ -106,13 +106,13 @@ mutation deleteNotifReview ($id: NotifReviewEntityResponse) {
 `;
 
 export const CREATE_REVIEW = gql`
-  mutation CreateReview($data: ReviewEntityResponse!) {
-    createReview(data: $data) {
-      data {
-          id
-        }	
-      }
+mutation CreateReview($data: ReviewInput!) {
+  createReview(data: $data) {
+    data {
+        id
+      }	
     }
+  }
 `;
 
 export const CREATE_MATIERE = gql`

@@ -1,57 +1,64 @@
 import { Card, CardHeader, CardBody, CardFooter, Button, Textarea } from "@nextui-org/react";
 import HeroiconsStarSolid from '~icons/heroicons/star-solid';
-import { Link , useParams} from 'react-router-dom';
+import { Link , useLocation, useNavigate, useParams} from 'react-router-dom';
 import {getNotifReviewFromId } from "../hooks/userFetching";
 import { CREATE_REVIEW, DELETE_NOTIFREVIEW } from "../hooks/mutations";
 import { useMutation } from '@apollo/client';
+import { useEffect, useState } from "react";
 
 
-export default function () {
-    var review = 0;
-    var commentaire = document.getElementById("commentaire");
-    var leCommentaire;
+export default function FormulaireAvis() {
+    const [reviewStars, setReviewStars] = useState(0);
+    const [comment, setComment] = useState('');
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const { loading, error, data } = getNotifReviewFromId(id);
 
-    if (commentaire && commentaire.value.trim() !== "") {
-        leCommentaire = commentaire.value;
-    } else {
-        leCommentaire = "Aucun commentaire";
-    }
+    const [createReview, { loading: createReviewLoading, error: createReviewError }] = useMutation(CREATE_REVIEW);
+    const [deleteNotifReview, { loading: deleteNotifLoading, error: deleteNotifError }] = useMutation(DELETE_NOTIFREVIEW);
 
-    var { id } = useParams();
-    var { loading, error, data } = getNotifReviewFromId(id);
+    useEffect(() => {
+        console.log(reviewStars)
+    }, [reviewStars]);
 
-    var [createReview, { loading, error }] = useMutation(CREATE_REVIEW);
-    var [deleteNotifReview, { loading, error }] = useMutation(DELETE_NOTIFREVIEW);
 
     if (loading) return <p>Loading user...</p>;
     if (error) return <p>Error fetching: {error.message}</p>;
 
-    const avis = data?.notifReview?.data?.attributes;
+    const avis = data.notifReview.data.attributes;
+    const nomTuteur = avis.users_permissions_revieweds.data[0].attributes.firstName + " "+ avis.users_permissions_revieweds.data[0].attributes.lastName;
+    const nomRencontre = avis.meetingID.data.attributes.name;
+    console.log(avis)
 
-    let nomTuteur = avis.users_permissions_revieweds.data[0].attributes.firstName + " "+ avis.users_permissions_revieweds.data[0].attributes.lastName;
-    let nomRencontre = avis.meetingID.data.attributes.name;
-
-   const handlePublierAvis = async (review, leCommentaire ) => {
-        if(review!=0){
+   const handlePublierAvis = async () => {
+        if(reviewStars != 0){
             try {
-                var { data } = await createReview({
+                console.log("reviewStars: " + reviewStars)
+                console.log(comment)
+                console.log(localStorage.getItem("userId"))
+                console.log(avis.users_permissions_revieweds.data[0].id)
+                var {data} = await createReview({
                     variables: {
                         data: {
-                            review: review,
-                            comment: leCommentaire,
+                            review: parseInt(reviewStars),
+                            comment: comment,
                             reviewer: localStorage.getItem("userId"),
-                            reviewed: avis.meetingID.data.id
+                            reviewed: avis.users_permissions_revieweds.data[0].id,
+                            publishedAt: new Date()
                         }
                     }
                 });
-    
-                var { data } = await deleteNotifReview({
+                
+                await deleteNotifReview({
                     variables: {
                         id: id
                     }
                 });
-    
+                
+                navigate("/avis")
             } catch (error) {
+                console.error(createReviewError)
+                console.error(deleteNotifError)
                 console.error("Une erreur s'est produite:", error);
             }
         }
@@ -69,11 +76,11 @@ export default function () {
                             <h1 className="text-center text-primary text-2xl font-bold titre mt-[-2vh]">{nomTuteur}</h1>
                             <h1 className="text-center text-primary text-1xl font-bold titre">{nomRencontre}</h1>
                             <div className="flex flex-row mx-auto mt-[2vh]">
-                                <a id="1e" onChange={review = 1}><HeroiconsStarSolid className="w-10 h-10 mb-.5 text-primary-700 hover:text-primary-300" /></a>
-                                <a id="2e" onChange={review = 2}><HeroiconsStarSolid className="w-10 h-10 mb-.5 text-primary-700 hover:text-primary-300" /></a>
-                                <a id="3e" onChange={review = 3}><HeroiconsStarSolid className="w-10 h-10 mb-.5 text-primary-700 hover:text-primary-300" /></a>
-                                <a id="4e" onChange={review = 4}><HeroiconsStarSolid className="w-10 h-10 mb-.5 text-primary-700 hover:text-primary-300" /></a>
-                                <a id="5e" onChange={review = 5}><HeroiconsStarSolid className="w-10 h-10 mb-.5 text-primary-700 hover:text-primary-300" /></a>
+                                <a id="1" onClick={(e) => setReviewStars(e.currentTarget.id)}><HeroiconsStarSolid className={reviewStars >= 1 ? "w-10 h-10 mb-.5 text-primary-300" : "w-10 h-10 mb-.5 text-primary-700"}/></a>
+                                <a id="2" onClick={(e) => setReviewStars(e.currentTarget.id)}><HeroiconsStarSolid className={reviewStars >= 2 ? "w-10 h-10 mb-.5 text-primary-300" : "w-10 h-10 mb-.5 text-primary-700"} /></a>
+                                <a id="3" onClick={(e) => setReviewStars(e.currentTarget.id)}><HeroiconsStarSolid className={reviewStars >= 3 ? "w-10 h-10 mb-.5 text-primary-300" : "w-10 h-10 mb-.5 text-primary-700"} /></a>
+                                <a id="4" onClick={(e) => setReviewStars(e.currentTarget.id)}><HeroiconsStarSolid className={reviewStars >= 4 ? "w-10 h-10 mb-.5 text-primary-300" : "w-10 h-10 mb-.5 text-primary-700"} /></a>
+                                <a id="5" onClick={(e) => setReviewStars(e.currentTarget.id)}><HeroiconsStarSolid className={reviewStars >= 5 ? "w-10 h-10 mb-.5 text-primary-300" : "w-10 h-10 mb-.5 text-primary-700"} /></a>
                             </div>
                             <Textarea
                                 id="commentaire"
@@ -81,15 +88,14 @@ export default function () {
                                 labelPlacement="inside"
                                 placeholder="Entrez votre avis"
                                 className="w-[80vw] mt-[2vh] ml-auto mr-auto overflow-hidden"
+                                onChange={(e) => setComment(e.target.value)}
                             />
                         </div>
                     </CardBody>
                     <CardFooter className="mb-[2vh] w-[90vw] h-[10vh] ml-[auto] mr-auto flex justify-center">
-                        <Link to="/home">
-                            <Button color="primary" variant="shadow" className="w-[40vw] btnEnvoyer" onChange={handlePublierAvis}>
+                            <Button color="primary" variant="shadow" className="w-[40vw] btnEnvoyer" onClick={handlePublierAvis}>
                                 Confirmer
                             </Button>
-                        </Link>
                     </CardFooter>
                 </Card>
             </div>

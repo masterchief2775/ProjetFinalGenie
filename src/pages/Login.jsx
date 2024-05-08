@@ -60,7 +60,6 @@ export default function Login() {
       //If everything ok save jwt & other constant info
       const token = data.login.jwt;
       const userId = data.login.user.id;
-      const isTeacher = data.login.user.isTeacher
       console.log(userId)
       localStorage.setItem('jwtToken', token);
       localStorage.setItem('userId', userId);
