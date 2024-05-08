@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery, useLazyQuery } from '@apollo/client';
 import { useState } from 'react';
 const GET_USER_BY_ID = gql`
   query GetUserById($userId: ID!) {
@@ -10,6 +10,7 @@ const GET_USER_BY_ID = gql`
           email
           isTeacher
           reviewAvg
+          bankedTime
           picture {
             data {
               attributes {
@@ -51,7 +52,7 @@ export const getUserById = (id) => {
   const { loading, error, data } = useQuery(GET_USER_BY_ID, {
     variables: { userId: id },
   });
-
+  console.log(data)
   return { loading, error, data }
 };
 
@@ -205,6 +206,33 @@ export const getUsersByStrength = (strengthName) => {
 
   const { loading, error, data } = useQuery(USER_SEARCH_BY_STRENGHT, {
     variables: { strName: strengthName },
+  });
+  return { loading, error, data }
+};
+
+const SEARCH_USER_BY_NAME_AND_STRENGTH = gql`query SearchByNameAndStrength($firstName: String!, $lastName: String!, $strengthName: String!) {
+	usersPermissionsUsers(filters: {and: [{firstName: {containsi: $firstName}}, {lastName: {containsi: $lastName}}, {strengths: {name: {containsi: $strengthName}}}]}){
+    data {
+      id
+      attributes {
+        firstName
+        lastName
+        strengths {
+          data {
+            id
+            attributes {
+              name
+            }
+          }
+        }
+      }
+    }
+  }
+}`
+
+export function getUserByNameAndStrength(firstName, lastName, strength) {
+  const { loading, error, data } = useQuery(SEARCH_USER_BY_NAME_AND_STRENGTH, {
+    variables: { firstName: firstName, lastName: lastName, strengthName: strength },
   });
   return { loading, error, data }
 };

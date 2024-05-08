@@ -22,6 +22,7 @@ const client = new ApolloClient({
 })
 
 function App() {
+  
   return (
     <>
 
@@ -39,7 +40,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/signin" element={<Signin />} />
               <Route path="/formulaireAvis" element={<FormulaireAvis />} />
-              <Route path="/formulaireRendezVous" element={<FormulaireRendezVous />} />
+              <Route path="/formulaireRendezVous/:id" element={<FormulaireRendezVous />} />
               <Route path="/formulaireRendezVousGroupe" element={<FormulaireRendezVousGroupe />} />
               <Route path="/modProfile" element={<ModProfile />} />
 

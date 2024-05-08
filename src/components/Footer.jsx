@@ -11,7 +11,7 @@ function Footer() {
   const [shouldNavigate, setShouldNavigate] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const shouldHideFooter = location.pathname === '/login' || location.pathname === '/signin';
+  const shouldHideFooter = location.pathname == '/login' || location.pathname == '/signin';
   const isOnSelf = location.pathname === '/Profile/me'
   var isConnected = checkUserData()
   useEffect(() => {
@@ -20,7 +20,9 @@ function Footer() {
 
   useEffect(() => {
     if (shouldNavigate) {
-      navigate('/login');
+      if (!shouldHideFooter) {
+        navigate('/login');
+      }
     }
   }, [shouldNavigate]); // Navigate only when shouldNavigate changes
 
