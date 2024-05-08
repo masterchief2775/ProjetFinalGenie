@@ -17,67 +17,9 @@ export default function ModProfil() {
 
   const [selectedStrengthId, setSelectedStrengthId] = useState(null);
 
-
   // Function to handle selection change in the Select component
   const handleSelectChange = (event) => {
     setSelectedStrengthId(event.target.value);
-    const user = data?.usersPermissionsUser?.data?.attributes;
-    let userImage = ""
-    if (user.picture.data?.attributes?.url) {
-      userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url
-    }
-    let userType = "Étudiant"
-    if (user.isTeacher) {
-      userType = "Enseignant"
-    }
-
-  const user = data?.usersPermissionsUser?.data?.attributes;
-  let userColor = "primary"
-  let userImage = ""
-  if (user.picture.data?.attributes?.url) {
-    userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url
-  }
-  let userType = "Étudiant"
-  if (user.isTeacher) {
-    userType = "Enseignant"
-
-  }
-
-
-  const handleRemoveStrength = async (strengthId) => {
-    // 1. Filter out the strength to be removed from user strengths
-    const updatedStrengths = user.strengths.data.filter(strength => strength.id !== strengthId);
-    const userToUpdate = {
-      id: user.id,
-      data: {
-        strengths: updatedStrengths.map(strength => strength.id),
-      },
-    };
-
-    // 2. Call UPDATE_MATIERE mutation to update user data
-    try {
-      const { data } = await UPDATE_MATIERE({ variables: userToUpdate });
-      console.log("Strength removed successfully:", data);
-      // Update UI to reflect the change (optional)
-    } catch (error) {
-      console.error("Error removing strength:", error);
-    }
-  };
-
-
-
-  const handleAddStrengh = (strengthId) => {
-    var updatedStrengths = strengthArray
-    updatedStrengths.push(strengthId)
-
-    updateMatiere({
-      variables: {
-        id: userId,
-        data: {
-          strengths: updatedStrengths
-        }
-      },
-    })
   };
 
   const { loading: matieresLoading, error: matieresError, data: matieresData } = getMatieresFromStrenghtArray(strengthArray);
@@ -85,6 +27,55 @@ export default function ModProfil() {
 
   if (userLoading || matieresLoading) return <p>Loading user...</p>;
   if (userError || matieresError) return <p>Error fetching user: {userError ? userError.message : matieresError.message}</p>;
+
+  const user = userData?.usersPermissionsUser?.data?.attributes;
+  const userColor = "primary";
+  let userImage = "";
+  if (user.picture?.data?.attributes?.url) {
+    userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url;
+  }
+  let userType = "";
+  if (user.isTeacher) {
+    userType = "Enseignant";
+  }
+  console.log(matieresData)
+
+  const handleRemoveStrength = (strengthId) => {
+    var updatedStrengths = strengthArray
+    //updatedStrengths.splice(strengthId, 1)
+    const indexToRemove = updatedStrengths.indexOf(strengthId);
+    if (indexToRemove !== -1) {
+      // Remove the element at the found index
+      updatedStrengths.splice(indexToRemove, 1);
+    }
+    console.log("Updated strenghts : " + updatedStrengths)
+    //console.log("User ID: " + userId)
+    
+    updateMatiere({
+      variables: {
+        id: userId,
+        data: {
+          strengths: updatedStrengths 
+      }
+      },
+    })
+  };
+
+  const handleAddStrengh = (strengthId) => {
+    var updatedStrengths = strengthArray
+    updatedStrengths.push(strengthId)
+    
+    updateMatiere({
+      variables: {
+        id: userId,
+        data: {
+          strengths: updatedStrengths 
+      }
+      },
+    })
+  };
+
+
 
   return (
     <>
@@ -120,11 +111,11 @@ export default function ModProfil() {
                 onChange={handleSelectChange}
                 value={selectedStrengthId}
               >
-                {matieresData?.subjects?.data.map((matiere) => (
-                  <SelectItem key={matiere.id} value={matiere.id} color="primary" className='matiere'>
-                    {matiere.attributes.name}
-                  </SelectItem>
-                ))}
+              {matieresData?.subjects?.data.map((matiere) => (
+                <SelectItem key={matiere.id} value={matiere.id} color="primary" className='matiere'>
+                  {matiere.attributes.name}
+                </SelectItem>
+              ))}
 
               </Select>
               <Button color="primary" variant="shadow" className="w-[7vw] btnSign h-[7vh] ml-[2vw]" onClick={() => handleAddStrengh(selectedStrengthId)} type='submit'>
