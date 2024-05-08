@@ -1,14 +1,17 @@
 import { Card, CardHeader, CardBody, CardFooter, Button, Input, DatePicker, TimeInput } from "@nextui-org/react";
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { Time } from "@internationalized/date";
 import { Select, SelectSection, SelectItem } from "@nextui-org/react";
 import { CREATE_MEETING } from '../hooks/mutations';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation } from "@apollo/client";
+import { useUserDataById } from "../hooks/useUserData";
 export default function () {
     //Navigation Usage
     const navigate = useNavigate();
-
+    const { id: userId } = useParams();
+    const [subjectId, setSubjectId] = useState(null);
+    const { userLoading, userError, userData } = useUserDataById(userId);
     //Fields
     const [name, setName] = useState(''); // Using useState here
     const [location, setLocation] = useState(''); // Using useState here
@@ -17,7 +20,13 @@ export default function () {
     const [subject, setSubject] = useState(''); // Using useState here
     const [date, setDate] = useState(''); // Using useState here
 
-
+    useEffect(() => {
+        const searchParams = new URLSearchParams(window.location.search);
+        const subjectParam = searchParams.get('subject');
+        setSubjectId(subjectParam);
+    }, []);
+    console.log(userId)
+    console.log(subjectId)
     //Errors
     const [errors, setErrors] = useState({});
 
@@ -30,14 +39,16 @@ export default function () {
         //if (!validateForm()) return; // Don't submit if validation fails
 
         try {
+            console.log(subject)
             const { data } = await meetingMutation({
+                
                 variables: {
                     data: {
                         name: name,
                         location: location,
                         beginningTime: beginningTime.toString(),
                         endTime: endTime.toString(),
-                        subject: subject.target.value.slice(2),
+                        subject: subject,
                         users_permissions_user: 2,
                         users_permissions_users: localStorage.getItem("userId"),
                         date: date.toString(),
@@ -54,12 +65,17 @@ export default function () {
         }
     };
 
+    if (userLoading) return <p>Loading user...</p>;
+    if (userError) return <p>Error fetching user: {userError.message}</p>;
+    console.log(userData)
     return (
         <form onSubmit={handleSubmit}><div className="flex h-[100vh]">
             <Card className=" ml-auto mr-[auto] mt-[10vh] mb-[14vh] w-[90vw] bg-[#041638] drop-shadow-xl">
-                <CardHeader className="w-[100%]">
-                    <h1 className="text-center text-primary-500 text-3xl font-bold mx-auto titre" >Rendez-vous</h1>
-
+                <CardHeader className="w-[100%] flex-col">
+                    <div>
+                        <h1 className="text-center text-primary-500 text-3xl font-bold mx-auto titre" >Rendez-vous</h1>
+                        <h5 className="text-center text-primary-500 text-1xl font-bold mx-auto">{userData.usersPermissionsUser.data.attributes.firstName + " " + userData.usersPermissionsUser.data.attributes.lastName}</h5>
+                    </div>
                 </CardHeader>
                 <CardBody className="w-[100%]">
                     <div className="w-full flex flex-row flex-wrap mt-auto mb-auto">
@@ -118,17 +134,14 @@ export default function () {
                             value={subject}
                             isInvalid={errors.subject != null}
                             errorMessage={errors.subject}
-                            onChange={setSubject}
+                            defaultSelectedKeys={[subjectId]}
+                            onChange={(e) => {setSubject(e.target?.value)}}
                         >
-                            <SelectItem value="0" name={"Math"} color="primary" className='matiere'>
-                                Math
+                            {userData.usersPermissionsUser.data.attributes.strengths.data.map((strength, index) => (
+                            <SelectItem key={strength.id} color="primary" className='matiere'>
+                            {strength.attributes.name}
                             </SelectItem>
-                            <SelectItem value="1" name={"Francais"} color="primary" className='matiere'>
-                                Francais
-                            </SelectItem>
-                            <SelectItem value="2" name={"Anglais"} color="primary" className='matiere'>
-                                Anglais
-                            </SelectItem>
+                        ))}
                         </Select>
                     </div>
                 </CardBody>

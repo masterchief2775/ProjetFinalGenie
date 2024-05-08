@@ -59,7 +59,7 @@ export const CREATE_MEETING = gql`
     }
 `;
 
-/*DATA DOIS AVOIR UNE LIISTE D'ID DES PERSONNE DÉJÀ DANS LE GROUPE + LA NOUVELLE*/
+/*DATA DOIS AVOIR UNE LISTE D'ID DES PERSONNE DÉJÀ DANS LE GROUPE + LA NOUVELLE*/
 export const JOIN_MEETING = gql`
 mutation joinMeeting($data: MeetingEntityResponse!) {
   updateMeeting(data: $data) {

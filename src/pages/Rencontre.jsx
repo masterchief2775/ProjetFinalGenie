@@ -2,62 +2,90 @@ import { Button, Input, Radio, Table, TableHeader, TableColumn, TableBody, Table
 
 import HeroiconsMagnifyingGlass16Solid from '~icons/heroicons/magnifying-glass-16-solid'
 import { Link } from 'react-router-dom'
-import { getUserById } from "../hooks/userFetching";
 import { useEffect, useState } from "react";
+import {getUserById, getUserByNameAndStrength} from "../hooks/ClientHooks";
+import { useUserData } from "../hooks/useUserData";
 
-export default function () {
-
-    const { loading, error, data } = getUserById('me')
+export default function Rencontre() {
+    const { userLoading, userError, userData } = useUserData();
+    const [tutorsTable, setTutorsTable] = useState([])
     const [searchName, setSearchName] = useState('')
-    const [currentChanging, setCurrentChanging] = useState('')
+    const [currentChanging, setCurrentChanging] = useState('Matière')
     const [searchBarValue, setSearchBarValue] = useState('')
     const [searchSubject, setSearchSubject] = useState('')
-
+    const [selectedUser, setSelectedUser] = useState(null)
     useEffect(() => {
         if (currentChanging) {
-            if (currentChanging.target.ariaLabel == "Nom") {
-                if(searchBarValue?.target?.value) {
-                    setSearchName('')
-                } else {
-                    setSearchName(searchBarValue.target.value)
+            if (currentChanging == "Nom") {
+                if (searchBarValue != null && searchBarValue != undefined) {
+                    setSearchName(searchBarValue)
                 }
-                
+
             } else {
-                if(searchBarValue?.target?.value) {
-                    setSearchSubject('')
-                } else {
-                    setSearchSubject(searchBarValue.target.value)
+                if (searchBarValue != null && searchBarValue != undefined) {
+                    setSearchSubject(searchBarValue)
                 }
-
             }
-            console.log("searchSubject: " + searchSubject)
-            console.log("searchName: " + searchName)
         }
-
+        //console.log(searchName)
+        //console.log(searchSubject)
     }, [searchBarValue]);
 
     useEffect(() => {
-        if (currentChanging) {
-            if (currentChanging.target.ariaLabel == "Nom") {
-                console.log("searchName : " + searchName)
-                if (searchName != null) {
-                setSearchBarValue(searchName)
-            }
-            } else {
-                if (searchSubject != null) {
-                    setSearchBarValue(searchSubject)
-                }
+        async function fetchData() {
+            var { data } = await getUserByNameAndStrength('','','')
+            console.log(data)
+            setTutorsTable(data.usersPermissionsUsers.data);
+        }
+        fetchData()
+        
 
+    }, []);
+
+    useEffect(() => {
+        //console.log("Entered selectedUser")
+
+        if (currentChanging) {
+            if (currentChanging == "Nom") {
+                setSearchBarValue(searchName)
+            } else {
+                setSearchBarValue(searchSubject)
             }
         }
+    }, [currentChanging])
 
-    }, [currentChanging]); 
+    useEffect(() => {
+        if (selectedUser) {
+            console.log(selectedUser)
+        }
+    }, [selectedUser])
+    
+    if (userLoading) return <p>Loading user...</p>;
+    if (userError) return <p>Error fetching user: {userError.message}</p>;
 
-    if (loading) return <p>Loading user...</p>;
-    if (error) return <p>Error fetching user: {error.message}</p>;
-
-    console.log(data)
-    let heureBanque = data.usersPermissionsUser.data.attributes.bankedTime + "h"
+    async function handleSearch() {
+        setSelectedUser(null)
+        var firstName;
+        var lastName;
+        var strength = searchSubject;
+        var name = searchName.split(' ');
+        if (name.length > 1) {
+            firstName = name[0];
+            lastName = name[1];
+        } else {
+            firstName = name[0];
+            lastName = '';
+        }
+        try {
+            var { loading, error, data } = await getUserByNameAndStrength(firstName, lastName, strength);
+            console.log(data)
+            setTutorsTable(data.usersPermissionsUsers.data)
+        } catch(e) {
+            console.error(e);
+        }
+        
+    }
+    let heureBanque = userData.usersPermissionsUser.data.attributes.bankedTime + "h"
     return (
         <>
             <div className="h-[100vh] w-[100wh] ">
@@ -77,10 +105,10 @@ export default function () {
                             size="lg"
                             placeholder="Entrez votre recherche"
                             className="w-[69vw] h-[8vh]"
-                            value={searchBarValue?.target?.value}
-                            onChange={setSearchBarValue}
+                            value={searchBarValue}
+                            onChange={(e) => {setSearchBarValue(e.target.value)}}
                         />
-                        <Button className="w-[5vw] m-[auto] mt-[0.5vh] bg-primary-600">
+                        <Button className="w-[5vw] m-[auto] mt-[0.5vh] bg-primary-600" onClick={handleSearch}>
                             <HeroiconsMagnifyingGlass16Solid className="w-7 h-7 mb-.5 text-primary-900 dark:text-gray-400 group-hover:text-primary-700 dark:group-hover:text-blue-500" />
                         </Button>
                     </div>
@@ -92,60 +120,23 @@ export default function () {
                         classNames={{
                             table: "bg-[#041638]",
                             wrapper: "p-0"
+                            
                         }}
                         isHeaderSticky
+                        onSelectionChange={(e) => setSelectedUser(e.currentKey)}
                         className="tableResult overflow-hidden"
                     >
                         <TableHeader>
                             <TableColumn>Nom</TableColumn>
-                            <TableColumn>Matières</TableColumn>
+                            <TableColumn>Matière</TableColumn>
                         </TableHeader>
-                        <TableBody >
-                            <TableRow key="1">
-                                <TableCell>Tony Reichert</TableCell>
-                                <TableCell>CEO</TableCell>
+                        <TableBody>
+                        {tutorsTable.map((user, index) => (
+                            <TableRow key={index}>
+                                <TableCell>{user.attributes.firstName} {user.attributes.lastName}</TableCell>
+                                <TableCell>{user.attributes.strengths.data[0].attributes.name}</TableCell>
                             </TableRow>
-
-                            <TableRow key="2">
-                                <TableCell>Tony Reichert</TableCell>
-                                <TableCell>CEO</TableCell>
-                            </TableRow>
-                            <TableRow key="3">
-                                <TableCell>Tony Reichert</TableCell>
-                                <TableCell>CEO</TableCell>
-                            </TableRow>
-                            <TableRow >
-                                <TableCell>Tony</TableCell>
-                                <TableCell>CEO</TableCell>
-                            </TableRow>
-                            <TableRow key="4">
-                                <TableCell>Tony Reichert</TableCell>
-                                <TableCell>CEO</TableCell>
-                            </TableRow>
-                            <TableRow key="5">
-                                <TableCell>Tony Reichert</TableCell>
-                                <TableCell>CEO</TableCell>
-                            </TableRow>
-                            <TableRow key="6">
-                                <TableCell>Tony Reichert</TableCell>
-                                <TableCell>CEO</TableCell>
-                            </TableRow>
-                            <TableRow key="7">
-                                <TableCell>Tony Reichert</TableCell>
-                                <TableCell>CEO</TableCell>
-                            </TableRow>
-                            <TableRow key="8">
-                                <TableCell>Tony Reichert</TableCell>
-                                <TableCell>CEO</TableCell>
-                            </TableRow>
-                            <TableRow key="9">
-                                <TableCell>Tony Reichert</TableCell>
-                                <TableCell>CEO</TableCell>
-                            </TableRow>
-                            <TableRow key="10">
-                                <TableCell>Tony Reichert</TableCell>
-                                <TableCell>CEO</TableCell>
-                            </TableRow>
+                        ))}
                         </TableBody>
                     </Table>
                 </div>
@@ -158,8 +149,9 @@ export default function () {
                         classNames={{
                             label: "text-gray-100"
                         }}
-                        onChange={setCurrentChanging}
-                        >
+                        onChange={(e) => { setCurrentChanging(e.target.ariaLabel) }}
+                        defaultValue="matiere"
+                    >
                         <Radio
                             value="nom"
                             className="w-[50wv] ml-[auto] mr-auto"
@@ -177,15 +169,10 @@ export default function () {
                             Matière
                         </Radio>
                     </RadioGroup>
-                    <div className="text-center">
-                        <Link to="/formulaireRendezVous">
-                            <Button color="primary" variant="shadow" className="w-40 ml-2 mr-2 mt-2 btnSign">
-                                Rendez-vous
-                            </Button>
-                        </Link>
-                        <Link to="/formulaireRendezVousGroupe">
-                            <Button color="primary" variant="shadow" className="w-40 ml-2 mr-2 mt-2 btnSign">
-                                Rendez-vous groupe
+                    <div className="text-center mt-4">
+                        <Link to={userData.usersPermissionsUser.data.attributes.isTeacher ? "/formulaireRendezVousGroupe" : "/formulaireRendezVous/" + tutorsTable[selectedUser]?.id + "?subject=" + tutorsTable[selectedUser]?.attributes?.strengths?.data[0]?.id} disabled={!selectedUser}>
+                            <Button id="rendezVousButton" color="primary" variant="shadow" className={`w-${userData.usersPermissionsUser.data.attributes.isTeacher ? 60 : 40} ml-2 mr-2 mt-2 btnSign`} isDisabled={!selectedUser}>
+                                {userData.usersPermissionsUser.data.attributes.isTeacher ? "Créer un Rendez-Vous de groupe" : "Prendre Rendez-vous"}
                             </Button>
                         </Link>
                     </div>
