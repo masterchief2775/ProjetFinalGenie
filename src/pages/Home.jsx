@@ -66,7 +66,7 @@ export default function Accueil() {
                     <Card className=" ml-auto mr-[auto] w-[90vw] mt-[2vh]">
                         <CardHeader className="flex mt-[1hv]">
                             <div className="relative mr-[1.6rem] ml-[1.3rem] translate-x-[-1.35rem] translate-y-[-1.5rem]">
-                                <Avatar className="absolute translate-x-[0.125rem] translate-y-[0.125rem]" src={"http://52.242.29.209:1337" + meeting.attributes.users_permissions_user.data.attributes.picture.data.attributes.url} />
+                                <Avatar className="absolute translate-x-[0.125rem] translate-y-[0.125rem]" src={meeting.attributes.users_permissions_user.data.attributes?.picture?.data?.attributes?.url ? "http://52.242.29.209:1337" + meeting.attributes.users_permissions_user.data.attributes.picture.data.attributes.url : ""} />
                                 <div className="absolute p-[0.15rem] bg-white rounded-full translate-x-[1.8rem] translate-y-[1.5rem]">
                                     <div className="bg-customColor p-[0.7rem] rounded-full">
                                     </div>
