@@ -31,7 +31,6 @@ export default function () {
   let userEmail = user.email
   let userApp = user.reviewAvg + "☆"
   let userType = "Étudiant"
-  let userId = user.userId
   if (user.isTeacher) {
     userType = "Enseignant"
   }

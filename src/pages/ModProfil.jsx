@@ -22,9 +22,6 @@ export default function () {
   if (user.picture.data?.attributes?.url) {
     userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url
   }
-  let userName = user.firstName + " " + user.lastName
-  let userEmail = user.email
-  let userApp = user.reviewAvg + "☆"
   let userType = "Étudiant"
   if (user.isTeacher) {
     userType = "Enseignant"
