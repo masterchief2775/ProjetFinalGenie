@@ -17,6 +17,7 @@ export default function ModProfil() {
 
   const [selectedStrengthId, setSelectedStrengthId] = useState(null);
 
+
   // Function to handle selection change in the Select component
   const handleSelectChange = (event) => {
     setSelectedStrengthId(event.target.value);
@@ -29,6 +30,17 @@ export default function ModProfil() {
     if (user.isTeacher) {
       userType = "Enseignant"
     }
+
+  const user = data?.usersPermissionsUser?.data?.attributes;
+  let userColor = "primary"
+  let userImage = ""
+  if (user.picture.data?.attributes?.url) {
+    userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url
+  }
+  let userType = "Étudiant"
+  if (user.isTeacher) {
+    userType = "Enseignant"
+
   }
 
 
