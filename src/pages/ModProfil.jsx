@@ -1,20 +1,35 @@
 import { Link } from 'react-router-dom'
 import { Avatar, Chip, Button, Divider, Calendar, Input, Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { useParams } from 'react-router-dom'
-import { getUserById } from '../hooks/userFetching';
+import { getUserById, getMatieresFromStrenghtArray } from '../hooks/userFetching';
 import HeroiconsTrashSolid from '~icons/heroicons/trash-solid';
 import { Select, SelectSection, SelectItem } from "@nextui-org/react";
+import { useMutation, useQuery } from '@apollo/client';
 import { UPDATE_MATIERE } from '../hooks/mutations';
-import { useMutation } from '@apollo/client';
+import { useState } from 'react';
 
 
-//const [updateMatiereMutation, {}] = useMutation(UPDATE_MATIERE);
-export default function () {
-  var { loading, error, data } = getUserById('me')
-  var [updateMatiere] = useMutation(UPDATE_MATIERE);
+export default function ModProfil() {
+  const { loading: userLoading, error: userError, data: userData } = getUserById('me');
+  const userStrengths = userData?.usersPermissionsUser.data.attributes?.strengths.data || [];
+  const strengthArray = userStrengths.map(strength => strength.id);
+  let userId = localStorage.getItem("userId")
 
-  if (loading) return <p>Loading user...</p>;
-  if (error) return <p>Error fetching user: {error.message}</p>;
+  const [selectedStrengthId, setSelectedStrengthId] = useState(null);
+
+
+  // Function to handle selection change in the Select component
+  const handleSelectChange = (event) => {
+    setSelectedStrengthId(event.target.value);
+    const user = data?.usersPermissionsUser?.data?.attributes;
+    let userImage = ""
+    if (user.picture.data?.attributes?.url) {
+      userImage = "http://52.242.29.209:1337" + user.picture.data.attributes.url
+    }
+    let userType = "Étudiant"
+    if (user.isTeacher) {
+      userType = "Enseignant"
+    }
 
   const user = data?.usersPermissionsUser?.data?.attributes;
   let userColor = "primary"
@@ -25,8 +40,9 @@ export default function () {
   let userType = "Étudiant"
   if (user.isTeacher) {
     userType = "Enseignant"
+
   }
-  
+
 
   const handleRemoveStrength = async (strengthId) => {
     // 1. Filter out the strength to be removed from user strengths
@@ -47,6 +63,28 @@ export default function () {
       console.error("Error removing strength:", error);
     }
   };
+
+
+
+  const handleAddStrengh = (strengthId) => {
+    var updatedStrengths = strengthArray
+    updatedStrengths.push(strengthId)
+
+    updateMatiere({
+      variables: {
+        id: userId,
+        data: {
+          strengths: updatedStrengths
+        }
+      },
+    })
+  };
+
+  const { loading: matieresLoading, error: matieresError, data: matieresData } = getMatieresFromStrenghtArray(strengthArray);
+  var [updateMatiere, { loading, error }] = useMutation(UPDATE_MATIERE);
+
+  if (userLoading || matieresLoading) return <p>Loading user...</p>;
+  if (userError || matieresError) return <p>Error fetching user: {userError ? userError.message : matieresError.message}</p>;
 
   return (
     <>
@@ -79,14 +117,17 @@ export default function () {
                 color="primary"
                 radius="sm"
                 size="lg"
+                onChange={handleSelectChange}
+                value={selectedStrengthId}
               >
-                {user.strengths?.data?.map((strength) => (
-                  <SelectItem key={strength.id} value={strength.id} color="primary" className='matiere'>
-                    {strength.attributes.name}
+                {matieresData?.subjects?.data.map((matiere) => (
+                  <SelectItem key={matiere.id} value={matiere.id} color="primary" className='matiere'>
+                    {matiere.attributes.name}
                   </SelectItem>
                 ))}
+
               </Select>
-              <Button color="primary" variant="shadow" className="w-[7vw] btnSign h-[7vh] ml-[2vw]">
+              <Button color="primary" variant="shadow" className="w-[7vw] btnSign h-[7vh] ml-[2vw]" onClick={() => handleAddStrengh(selectedStrengthId)} type='submit'>
                 Ajouter
               </Button>
             </div>
