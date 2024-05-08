@@ -13,9 +13,16 @@ export default function Accueil() {
 
     if (loading) return <p>Loading user...</p>;
     if (error) return <p>Error fetching user: {error.message}</p>;
+    console.log(data)
 
-    const TableauMeeting = data?.usersPermissionsUser?.data?.attributes?.meetings?.data;
-    
+    var TableauMeetingFromUser = data?.usersPermissionsUser?.data?.attributes?.meetings?.data;
+    var TableauMeetingFromTuteur = data?.meetings?.data;
+
+    var TableauMeeting =[
+    ...(TableauMeetingFromUser || []), 
+    ...(TableauMeetingFromTuteur || []) 
+      ];
+
     const handleTerminerMeeting = async (meetingId, reviewerId, reviewedId) => {
         try {
             var { data } = await createNotifReview({

@@ -40,14 +40,13 @@ mutation register($input: UsersPermissionsRegisterInput!) {
 
 export const createUser = async (username, email, password) => {
   const { data } = await client.mutate({
-    mutation: REGISTER_MUTATION, // Assuming you have REGISTER_MUTATION defined
+    mutation: REGISTER_MUTATION, 
     variables: {
       username,
       email,
       password,
     },
   });
-  // Handle response data and errors
 };
 
 export const CREATE_MEETING = gql`
@@ -138,6 +137,19 @@ mutation UpdateMatiere($id: ID!, $data:  UsersPermissionsUserInput! ) {
         }
         }
       }
+  }
+}
+`;
+
+export const GET_MATIERES_DISPO = gql`
+query GetAvailableSubjects($strengths: [ID!]) {
+  subjects(filters: { not: { id: { in: $strengths } } }) {
+    data {
+      id
+      attributes {
+        name
+      }
+    }
   }
 }
 `;

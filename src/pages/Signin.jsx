@@ -94,7 +94,7 @@ export default function SignupForm() {
                     },
                 },
             });
-
+            console.log("NAVIGATION")
             navigate('/login');
 
           } catch (errors) {
